@@ -12,12 +12,12 @@
 
 #include "ft_printf.h"
 
-static	int	precf(const char *frm, int i)
+static	int		precf(const char *frm, int i)
 {
 	int prec;
-	
+
 	prec = 0;
-	while(frm[i] != '.' && frm[i] && frm[i] != 's')
+	while (frm[i] != '.' && frm[i] && frm[i] != 's')
 		i++;
 	if (frm[i] == '.')
 		i++;

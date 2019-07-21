@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-const t_types v_types =
+const	t_types	v_types =
 {
 	{ "csd"},
 	{ &c_proc, &s_proc, &d_proc }
@@ -23,7 +23,7 @@ t_types	get_types()
 	return (v_types);
 }
 
-int	put_space(int sp_sz)
+int		put_space(int sp_sz)
 {
 	int c;
 
@@ -36,17 +36,21 @@ int	put_space(int sp_sz)
 	return (c);
 }
 
-// int put_zero(int z_sz, int width)
-// {
-// 	int c;
-
-// 	c = 0;
-// 	while (z_sz, )
-// }
-
-int	n_len(int n)
+int		put_zero(int z_sz)
 {
-	int tmp;
+	int c;
+
+	c = 0;
+	while (c < z_sz)
+	{
+		c += write(1, "0", 1);
+	}
+	return (c);
+}
+
+int		n_len(long long n)
+{
+	long long tmp;
 	int size;
 
 	tmp = n;

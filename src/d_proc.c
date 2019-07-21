@@ -12,93 +12,90 @@
 
 #include "ft_printf.h"
 
-static	void	set_flg(int *nf)
+static	long	long	get_va_arg(va_list ap, t_flags flgs)
 {
-	int i;
+	if (flgs.h == 1)
+		return ((short)va_arg(ap, int));
+	else if (flgs.h == 2)
+		return ((char)va_arg(ap, int));
+	else if (flgs.l == 1)
+		return (va_arg(ap, long));
+	else if (flgs.l == 2)
+		return (va_arg(ap, long long));
+	else
+		return (va_arg(ap, int));
+}
+/**
+***no minus
+**/
 
-	i = 0;
-	while (i < 6)
-		nf[i++] = 0;
+static	int		sub_w(t_flags flgs, long long d)
+{
+	int c;
+	
+	c = 0;
+	c += (flgs.plus || flgs.space) ? 1 : 0;
+	c += (flgs.prec > n_len(d)) ? flgs.prec : n_len(d);
+	return (c);
 }
 
-static	void	get_flg1(const char *frm, int *nf, int i)
+static	void	no_m_d(long long d, t_flags *flgs, int *sz)
 {
-	while (!(frm[i] >= '0' && frm[i] <= '9') && frm[i] != 'd')
+	flgs->width -= sub_w(*flgs, d);
+	ft_putnbr(flgs->width);
+	*sz += (!flgs->zero && flgs->width > n_len(d)) ?
+		put_space(flgs->width) : 0;
+	if (flgs->plus)
+		*sz += write(1, "+", 1);
+	else if (flgs->space)
+		*sz += write(1, " ", 1);
+	*sz += (flgs->zero && !flgs->dot && flgs->width > n_len(d)) ?
+		put_zero(flgs->width) : 0;
+	if (flgs->prec > n_len(d))
+		*sz += put_zero(flgs->prec - n_len(d));
+	ft_putnbr(d);
+}
+/**
+***yes minus
+**/
+static	void	m_d(long long d, t_flags *flgs, int *sz)
+{
+	if (flgs->plus)
 	{
-		if (frm[i] ==  '-')
-			nf[0] = 1;
-		else if (frm[i] ==  '+')
-			nf[1] = 1;
-		else if (frm[i] ==  ' ')
-			nf[2] = 1;
-		i++;
+		*sz += write(1, "+", 1);
+		flgs->width--;
 	}
-}
-
-static	void	get_flgwp(const char *frm, int *nf, int i)
-{
-	while (frm[i] != '0' && frm[i] != 'd' && frm[i] != '.' &&
-		!(frm[i] >= '1' && frm[i] <= '9'))
-		i++;
-	nf[3] =  (frm[i] ==  '0') ? 1 : 0;
-	while (frm[i] == '0' && frm[i] != 'd')
-		i++;
-	nf[4] = (frm[i] >= '1' && frm[i] <= '9' &&
-			frm[i] != 'd') ? ft_atoi(&frm[i]) : 0;
-	while (frm[i] != '.' && frm[i] != 'd')
-		i++;
-	nf[5] = (frm[i] == '.') ? ft_atoi(&frm[i + 1]) : 0;
-}
-
-/*	flags : 0 = '-', 1 = '+', 2 = ' ', 3 = '0', 4 = width, 5 = prec	*/
-void	d_proc(const char *frm, va_list ap, int *i, int *sz)
-{
-	int		d;
-	char	*t;
-	int		nf[6];
-	int		mf;
-
-	d = va_arg(ap, int);
-	mf = 0;
-	set_flg(nf);
-	get_flg1(frm, nf, *i);
-	get_flgwp(frm, nf, *i);
-	d = (nf[5]) ? ft_atoi(t = ft_strsub(ft_itoa(d), 0 * (mf = 1), nf[5])) : d;
-	(mf) ? free(t) : ft_putstr("");
-	if (nf[0])
+	else if (flgs->space)
 	{
-		nf[3] = 0;
-		if (nf[1] && !(nf[2] = 0))
-		{
-			ft_putchar('+');
-			nf[4] -= 1;
-			*sz += 1;
-		}
-		else
-			if (nf[4] > 0)
-				nf[4] -= (nf[2]) ? 1 : 0;
-		ft_putnbr(d);
-		if (nf[4] > 0)
-			nf[4] -= n_len(d);
-		sz += put_space(nf[4]);
+		*sz += write(1, " ", 1);
+		flgs->width--;
 	}
-	// if (!nf[0])
-	// {
-	// 	if (nf[1] && !(nf[2] = 0))
-	// 	{
-	// 		ft_putchar('+');
-	// 		nf[4] -= 1;
-	// 		*sz += 1;
-	// 	}
-	// 	else
-	// 		nf[4] -= (nf[2]) ? 1 : 0;
-	// 	// if (nf[3])
-	// 	// {
-	// 	// 	if (nf[4] > 4)
+	if (flgs->prec > n_len(d))
+	{
+		*sz += put_zero(flgs->prec - n_len(d));
+		flgs->width -= flgs->prec - n_len(d);
+	}
+	ft_putnbr(d);
+	flgs->width -= n_len(d);
+	*sz += put_space(flgs->width) + n_len(d);
+}
 
-	// 	// }
-	// 	ft_putnbr(d);
-	// }
-	// ft_putnbr(d);
-	*sz += n_len(d);
+
+/**
+*** flags : 0 = '-', 1 = '+', 2 = ' ', 3 = '0', 4 = width, 5 = prec
+**/
+void			d_proc(const char *frm, va_list ap, int *i, int *sz)
+{
+	long long	d;
+	char		*t;
+	t_flags 	flgs;
+
+	get_flgs(frm, &flgs, i);
+	d = get_va_arg(ap, flgs);
+	if (flgs.minus)
+		m_d(d, &flgs, sz);
+	else
+		no_m_d(d, &flgs, sz);
+	
+	// *sz += n_len(d);
 }

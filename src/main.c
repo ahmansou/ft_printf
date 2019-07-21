@@ -17,7 +17,7 @@ int main()
 	// int		d = 47;
 	// char	*s = "ab";
 	// char	c = 'A';
-	// int		p;
+	int		p = 0;
 	int		ft_p;
 
 	// ft_p = ft_printf("%d|%-d|%23d|%.5d|%.50d|%-23d|%-.5d|%-.50d|%23.5d|%23.50d|%-23.5d|%-23.50d", 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256);
@@ -26,14 +26,16 @@ int main()
 	// p = printf("%d|%0d|% d|%-d|%23d|%.2d|%.5d|%.50d|%-23d|%-.5d|%-.50d|%23.5d|%23.50d|%-23.5d|%-23.50d|% -23.50d", 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256);
 	// ft_p =  ft_printf("%+0d|%+- 02.5d|%-+d|%d|% d|%0d", 1, 2, 3, 4, 5, 6);
 	// ft_p =  ft_printf("%+0d|%+- 02.5d|%-+d| meow lol", 1, 2, 3);
-	ft_p = ft_printf("%c|%-10.3s|%+- 025.3d|%+ 10d|", 'A', "Meow", 256,10);
+	// ft_p = ft_printf("%c|%-10.3s|%+- 025.3d|%+ 10d|", 'A', "Meow", 256,10);
 	// ft_putendl("");
-			//   printf("%c|%-10.3s|%+- 025.3d|%+ 10d|", 'A', "Meow", 256,10);
-	// p =  printf("%d|%-d|%+d|% d|%0d", 256, 256, 256, 256, 256);
+	ft_p =	ft_printf("|% 05d|%+10lld|", 256,(long long)10);
+	ft_putendl("");
+	p += 	   printf("|% 05d|%+10lld|", 256,(long long)10);
 	// ft_putendl("");
-	// ft_putnbr(ft_p);
-	// ft_putendl("");
-	// ft_putnbr(p);
+	// p =  	printf("%d|%-d|%+d|% d|%0d", 256, 256, 256, 256, 256);
+	ft_putnbr(ft_p);
+	ft_putendl("");
+	ft_putnbr(p);
 	// ft_putendl("");
 	return (0);
 }
