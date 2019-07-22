@@ -41,9 +41,10 @@ int		put_zero(int z_sz)
 	int c;
 
 	c = 0;
-	while (c < z_sz)
+	while (z_sz > 0)
 	{
 		c += write(1, "0", 1);
+		z_sz--;
 	}
 	return (c);
 }

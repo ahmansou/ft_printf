@@ -21,15 +21,24 @@ static	void	set_flgs(t_flags *flgs)
 	flgs->width = 0;
 	flgs->prec = 0;
 	flgs->dot = 0;
+	flgs->h = 0;
+	flgs->l = 0;
 }
 
 static	void	get_hl(const char *frm, t_flags *flgs, int *i)
 {
-	if (frm[*i] == 'h')
-		flgs->h = (frm[*i + 1] == 'h') ? 2 : 1;
-	else if (frm[*i] == 'l')
-		flgs->l = (frm[*i + 1] == 'l') ? 2 : 1;
+	while (frm[*i] != 'd')
+		(*i)++;
+	if (frm[*i - 1] == 'h')
+		flgs->h = (frm[*i - 2] == 'h') ? 2 : 1;
+	else if (frm[*i - 1] == 'l')
+		flgs->l = (frm[*i - 2] == 'l') ? 2 : 1;
 }
+
+// static	void	get_mps(const char *frm, t_flags *flgs, int *i)
+// {
+
+// }
 
 void			get_flgs(const char *frm, t_flags *flgs, int *i)
 {
@@ -41,7 +50,7 @@ void			get_flgs(const char *frm, t_flags *flgs, int *i)
 		if (frm[*i] == '-')
 			flgs->minus = 1;
 		else if (frm[*i] == '+')
-			flgs->plus = 1;
+			flgs->plus = '+';
 		else if (frm[*i] == ' ')
 			flgs->space = 1;
 		(*i)++;

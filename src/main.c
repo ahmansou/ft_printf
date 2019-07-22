@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "limits.h"
 
 int main()
 {
@@ -28,14 +29,19 @@ int main()
 	// ft_p =  ft_printf("%+0d|%+- 02.5d|%-+d| meow lol", 1, 2, 3);
 	// ft_p = ft_printf("%c|%-10.3s|%+- 025.3d|%+ 10d|", 'A', "Meow", 256,10);
 	// ft_putendl("");
-	ft_p =	ft_printf("|% 05d|%+10lld|", 256,(long long)10);
-	ft_putendl("");
-	p += 	   printf("|% 05d|%+10lld|", 256,(long long)10);
+	ft_p =	ft_printf("%ld|%-ld|%+ld|% ld|%0ld", LLONG_MIN, LLONG_MIN, LLONG_MIN, LLONG_MIN, LLONG_MIN);
+	// ft_putendl("");
+	p += 	 printf("\n%ld|%-ld|%+ld|% ld|%0ld", LLONG_MIN, LLONG_MIN, LLONG_MIN, LLONG_MIN, LLONG_MIN);
+	// ft_p =	ft_printf("%.50ld|%-ld|%+ld|% ld|%0ld", LLONG_MAX, LLONG_MAX, LLONG_MAX, LLONG_MAX, LLONG_MAX);
+	// // ft_putendl("");
+	// p += 	 printf("\n%.50ld|%-ld|%+ld|% ld|%0ld", LLONG_MAX, LLONG_MAX, LLONG_MAX, LLONG_MAX, LLONG_MAX);
+
+	printf("\nftp : %d, p : %d", ft_p, p);
 	// ft_putendl("");
 	// p =  	printf("%d|%-d|%+d|% d|%0d", 256, 256, 256, 256, 256);
-	ft_putnbr(ft_p);
-	ft_putendl("");
-	ft_putnbr(p);
+	// ft_putnbr(LLONG_MAX);
+	// ft_putendl("");
+	// ft_putnbr(p);
 	// ft_putendl("");
 	return (0);
 }

@@ -24,7 +24,7 @@ typedef struct	s_types
 typedef	struct s_flags
 {
 	int	minus;
-	int plus;
+	int plus; // 1 = +; 2 = -
 	int space;
 	int zero;
 	int width;

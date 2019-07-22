@@ -10,54 +10,54 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf
-NAME = ft_printf
-LNAM = libft.a
-LIB = ./libft
-INCL = ./src/ft_printf.h
-SRC = ./src
-W = -Wall -Wextra -Werror
+# NAME = ft_printf
+# NAME = ft_printf
+# LNAM = libft.a
+# LIB = ./libft
+# INCL = ./src/ft_printf.h
+# SRC = ./src
+# W = -Wall -Wextra -Werror
 
-all: $(NAME)
+# all: $(NAME)
 
-$(NAME):
-		@make -C $(LIB) re
-			# @gcc $(W) -L $(LIB) -lft $(SRC)/*.c -I $(LIB) -I $(INCL) -o $(NAME)
-			@gcc -L $(LIB) -lft $(SRC)/*.c -I $(LIB) -I $(INCL) -o $(NAME)
+# $(NAME):
+# 		@make -C $(LIB) re
+# 			# @gcc $(W) -L $(LIB) -lft $(SRC)/*.c -I $(LIB) -I $(INCL) -o $(NAME)
+# 			@gcc -L $(LIB) -lft $(SRC)/*.c -I $(LIB) -I $(INCL) -o $(NAME)
 
-clean:
-		@make -C $(LIB) clean
+# clean:
+# 		@make -C $(LIB) clean
 
-fclean: clean
-		@make -C $(LIB) fclean
-			@/bin/rm -f $(NAME)
+# fclean: clean
+# 		@make -C $(LIB) fclean
+# 			@/bin/rm -f $(NAME)
 
-re: fclean all
+# re: fclean all
 
 
 # ........................
 
-# NAME = libftprintf.a
+NAME = libftprintf.a
 
-# FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra
 
-# SRC = src/*.c
+SRC = src/*.c
 
-# OBJ = *.o
+OBJ = *.o
 
-# LIBFT = libft/*.o
+LIBFT = libft/*.o
 
-# all: $(NAME)
+all: $(NAME)
 
-# $(NAME) :
-# 			make -C libft
-# 			gcc -I ft_printf.h $(FLAGS) -c $(SRC)
-# 			ar rc $(NAME) $(OBJ) $(LIBFT)
-# 			gcc $(NAME)
-# clean:
-# 			make clean -C libft
-# 			/bin/rm -f $(OBJ)
-# fclean: clean
-# 			make fclean -C libft
-# 			/bin/rm -f $(OBJ) $(NAME)
-# re: fclean all
+$(NAME) :
+			make -C libft
+			gcc -I ft_printf.h $(FLAGS) -c $(SRC)
+			ar rc $(NAME) $(OBJ) $(LIBFT)
+			gcc $(NAME)
+clean:
+			make clean -C libft
+			/bin/rm -f $(OBJ)
+fclean: clean
+			make fclean -C libft
+			/bin/rm -f $(OBJ) $(NAME)
+re: fclean all
