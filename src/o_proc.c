@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static unsigned long long get_va_arg_o(va_list ap, t_flags flgs)
+unsigned long long get_va_arg_o(va_list ap, t_flags flgs)
 {
 	if (flgs.h == 1)
 		return ((unsigned short)va_arg(ap, int));
