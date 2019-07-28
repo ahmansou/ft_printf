@@ -14,8 +14,8 @@
 
 const	t_types	v_types =
 {
-	{ "csd"},
-	{ &c_proc, &s_proc, &d_proc }
+	{ "csdo"},
+	{ &c_proc, &s_proc, &d_proc, &o_proc }
 };
 
 t_types	get_types()

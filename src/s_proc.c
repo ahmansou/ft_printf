@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-static	int		precf(const char *frm, int i)
+static	int		prf(const char *frm, int i)
 {
-	int prec;
+	int pr;
 
-	prec = 0;
+	pr = 0;
 	while (frm[i] != '.' && frm[i] && frm[i] != 's')
 		i++;
 	if (frm[i] == '.')
@@ -24,8 +24,8 @@ static	int		precf(const char *frm, int i)
 	else
 		return (0);
 	if (frm[i] >= '1' && frm[i] <= '9')
-		prec = ft_atoi(&frm[i]);
-	return (prec);
+		pr = ft_atoi(&frm[i]);
+	return (pr);
 }
 
 void			s_proc(const char *frm, va_list ap, int *i, int *sz)
@@ -33,7 +33,7 @@ void			s_proc(const char *frm, va_list ap, int *i, int *sz)
 	char	*s;
 	char	*tmp;
 	int		indx;
-	int		prec;
+	int		pr;
 	int		must_free;
 
 	s = va_arg(ap, char*);
@@ -41,10 +41,10 @@ void			s_proc(const char *frm, va_list ap, int *i, int *sz)
 	must_free = 0;
 	if (!s && (must_free = 1))
 		s = ft_strdup("(null)");
-	if ((prec = precf(frm, *i)))
+	if ((pr = prf(frm, *i)))
 	{
 		(must_free == 1 && (tmp = s)) ? free(tmp) : ft_putstr("");
-		s = ft_strsub(s, 0, prec);
+		s = ft_strsub(s, 0, pr);
 		must_free = 1;
 	}
 	(frm[indx] == '-' && (*i)++) ? ft_putstr(s) : ft_putstr("");

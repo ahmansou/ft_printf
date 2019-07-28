@@ -12,9 +12,9 @@
 
 #include "ft_printf.h"
 
-void    get_params(const char *frm, va_list ap, int *i, int *sz)
+void	get_params(const char *frm, va_list ap, int *i, int *sz)
 {
-	int 	tt;
+	int		tt;
 	int		indx;
 	t_types	v_tps;
 
@@ -36,7 +36,7 @@ void    get_params(const char *frm, va_list ap, int *i, int *sz)
 	}
 }
 
-int	ft_printf(const char *format, ...)
+int		ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	int		sz;

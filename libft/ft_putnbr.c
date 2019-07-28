@@ -14,21 +14,24 @@
 
 void	ft_putnbr(long long n)
 {
-	if (n == -2147483648)
-	{
-		write(1, "-2147483648", 11);
-		return ;
-	}
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n *= -1;
-	}
-	if (n < 10)
-		ft_putchar(48 + (n % 10));
+	unsigned long long nbr;
+
+	nbr = (unsigned long long)n;
+	// if (nbr == -2147483648)
+	// {
+	// 	write(1, "-2147483648", 11);
+	// 	return ;
+	// }
+	// if (nbr < 0)
+	// {
+	// 	write(1, "-", 1);
+	// 	nbr *= -1;
+	// }
+	if (nbr < 10)
+		ft_putchar(48 + (nbr % 10));
 	else
 	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
+		ft_putnbr(nbr / 10);
+		ft_putnbr(nbr % 10);
 	}
 }
