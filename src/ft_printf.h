@@ -17,8 +17,8 @@
 
 typedef struct	s_types
 {
-	char		types[4];
-	void		(*t[4])(const char *frm, va_list ap, int *i, int *sz);
+	char		types[11];
+	void		(*t[11])(const char *frm, va_list ap, int *i, int *sz);
 }				t_types;
 
 typedef	struct s_flags

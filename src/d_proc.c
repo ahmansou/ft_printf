@@ -83,8 +83,15 @@ void			d_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long long	d;
 	t_flags 	flgs;
+	int			indx;
 
-	get_flgs(frm, &flgs, i, 'd');
+	indx = *i;
+	while (frm[indx] != 'd' && frm[indx] != 'i')
+		indx++;
+	if (frm[indx] == 'd')
+		get_flgs(frm, &flgs, i, 'd');
+	if (frm[indx] == 'i')
+		get_flgs(frm, &flgs, i, 'i');
 	// printf("\nmi : %d, plus : %d, space : %d, zero : %d, wd : %d, pr : %d, dot : %d, h : %d, l : %d\n",
 	// flgs.mi, flgs.plus, flgs.space, flgs.zero, flgs.wd, flgs.pr, flgs.dot, flgs.h, flgs.l);
 	d = get_va_arg(ap, flgs);
