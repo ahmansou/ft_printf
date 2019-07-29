@@ -14,8 +14,8 @@
 
 const	t_types	v_types =
 {
-	{ "csdoiux"},
-	{ &c_proc, &s_proc, &d_proc, &o_proc, &d_proc, &u_proc, &x_proc }
+	{ "csdoiuxp"},
+	{ &c_proc, &s_proc, &d_proc, &o_proc, &d_proc, &u_proc, &x_proc, &p_proc}
 };
 
 t_types	get_types()
