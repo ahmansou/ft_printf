@@ -44,6 +44,7 @@ void    		s_proc(const char *frm, va_list ap, int *i, int *sz);
 void    		d_proc(const char *frm, va_list ap, int *i, int *sz);
 void    		o_proc(const char *frm, va_list ap, int *i, int *sz);
 void			u_proc(const char *frm, va_list ap, int *i, int *sz);
+void			x_proc(const char *frm, va_list ap, int *i, int *sz);
 void			get_flgs(const char *frm, t_flags *flgs, int *i, char c);
 int				put_space(int sp_sz);
 int				n_len(long long n);
