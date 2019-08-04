@@ -15,6 +15,22 @@
 #include <stdarg.h>
 #include "../libft/libft.h"
 
+typedef	struct		s_d
+{
+	unsigned long	mant : 52;
+	unsigned int	exp	: 11;
+	unsigned int	sign : 1;
+}					t_d;
+
+typedef	struct		s_ld
+{
+	unsigned long	mant : 63;
+	unsigned int	bit : 1;
+	unsigned int	exp	: 15;
+	unsigned int	sign : 1;
+}					t_ld;
+
+
 typedef struct	s_types
 {
 	char		types[11];
@@ -32,6 +48,7 @@ typedef	struct s_flags
 	int dot;
 	int h; //0 1 2
 	int l; //0 1 2
+	int L;
 	int oc;
 }				t_flags;
 
@@ -46,6 +63,7 @@ void    		o_proc(const char *frm, va_list ap, int *i, int *sz);
 void			u_proc(const char *frm, va_list ap, int *i, int *sz);
 void			x_proc(const char *frm, va_list ap, int *i, int *sz);
 void			p_proc(const char *frm, va_list ap, int *i, int *sz);
+void			f_proc(const char *frm, va_list ap, int *i, int *sz);
 void			get_flgs(const char *frm, t_flags *flgs, int *i, char c);
 int				put_space(int sp_sz);
 int				n_len(long long n);
@@ -53,3 +71,8 @@ int				put_zero(int z_sz);
 long	long	get_va_arg(va_list ap, t_flags flgs);
 unsigned long long get_va_arg_o(va_list ap, t_flags flgs);
 char			*itoa_base(unsigned long long nbr, int base);
+char			*str_add(char *a, char *b);
+char			*str_mul(char *a, char *b);
+char			*str_addzero(char *s1, char *s2);
+char			*str_delzero(char *s);
+char			*str_pow(char *a, int pow);

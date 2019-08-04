@@ -12,35 +12,24 @@
 
 #include "ft_printf.h"
 
-static	char	*str_addzero(char *s1, char *s2)
-{
-	char	*tmp;
-
-	tmp = s2;
-	s2 = ft_strnew(ft_strlen(s1) - ft_strlen(tmp));
-	ft_memset(s2, '0', ft_strlen(s1) - ft_strlen(tmp));
-	s2 = ft_strcat(s2, tmp);
-	free(tmp);
-	return (s2);
-}
-
 char			*str_add(char *a, char *b)
 {
 	char	*res;
 	char	rst[2];
 	int		add[2];
 	int		i;
-
-	b = (ft_strlen(a) > ft_strlen(b)) ? str_addzero(a, b) : b;
+	
+	a = str_delzero(a);
+	b = str_delzero(b);
 	a = (ft_strlen(b) > ft_strlen(a)) ? str_addzero(b, a) : a;
+	b = (ft_strlen(a) > ft_strlen(b)) ? str_addzero(a, b) : b;
 	i = ft_strlen(a);
 	res = ft_strnew(i + 1);
 	ft_memset(&rst, '0', 2);
 	while (i >= 0)
 	{
-		if (i > 0)
+		if (i > 0 && (add[0] = a[i - 1] - '0') + 1)
 		{
-			add[0] = a[i - 1] - '0';
 			add[1] = b[i - 1] - '0';
 			rst[1] = ((add[0] + add[1] + (rst[0] - '0')) % 10) + '0';
 			rst[0] = (((add[0] + add[1] + (rst[0] - '0')) / 10) % 10) + '0';
@@ -52,27 +41,57 @@ char			*str_add(char *a, char *b)
 	return (res);
 }
 
-// char			*str_div(char *a, char *b)
-// {
-// 	char	*res;
-// 	char	*tmp;
-// 	char	rst[2];
-// 	int		i;
-// 	int		j;
+static	char	*do_mul(char *a, char *b, char *tmp, char *prd)
+{
+	int		i[3];
+	char	rst[2];
+	char	pr[3];
 
-// 	i = 0;
-// 	b = (ft_strlen(a) > ft_strlen(b)) ? str_addzero(a, b) : b;
-// 	a = (ft_strlen(b) > ft_strlen(a)) ? str_addzero(b, a) : a;
-// 	res = ft_strnew(ft_strlen(a) * ft_strlen(b));
-// 	while (a[i])
-// 	{
-// 		j = 0;
-// 		while (b[j])
-// 		{
-// 			rst[0] = ()
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (res);
-// }
+	i[1] = ft_strlen(b);
+	while (--i[1] >= 0)
+	{
+		i[2] = ft_strlen(a);
+		i[0] = (ft_strlen(a) + ft_strlen(b) - 1) - (ft_strlen(b) - (i[1] + 1));
+		ft_memset(&rst, '0', 2);
+		ft_memset(tmp, '0', ft_strlen(a) + ft_strlen(b));
+		while (--i[2] >= 0)
+		{
+			pr[0] = b[i[1]] - '0';
+			pr[1] = a[i[2]] - '0';
+			rst[1] = ((pr[0] * pr[1] + rst[0] - '0') % 10) + '0';
+			rst[0] = (((pr[0] * pr[1]  + rst[0] - '0') / 10) % 10) + '0';
+			tmp[i[0]--] = rst[1];
+		}
+		tmp[i[0]] = rst[0];
+		prd = str_add(prd, tmp);
+	}
+	return (prd);
+}
+
+char			*str_mul(char *a, char *b)
+{
+	char	*prd;
+	char	*tmp;
+
+	a = str_delzero(a);
+	b = str_delzero(b);
+	prd = ft_strnew(ft_strlen(a) + ft_strlen(b));
+	ft_memset(prd, '0', ft_strlen(a) + ft_strlen(b));
+	tmp = ft_strnew(ft_strlen(a) + ft_strlen(b));
+	prd = do_mul(a, b, tmp, prd);
+	prd = str_delzero(prd);
+	return (prd);
+}
+
+char		*str_pow(char *a, int pow)
+{
+	char	*prd;
+
+	prd = ft_strdup("1");
+	while (pow > 0)
+	{
+		prd = str_mul(prd, a);
+		pow--;
+	}
+	return prd;
+}
