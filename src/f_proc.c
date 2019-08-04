@@ -29,7 +29,7 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
 	double		d;
-	char		**s;
+	// char		**s;
 	t_flags		flgs;
 	union u_d	ud;
 	union u_ld	uld;
