@@ -23,13 +23,18 @@ int main()
 	char *a;
 	char *b;
 
-	a = ft_strdup("2");
-	b = ft_strdup("00099999109999990");
+	a = ft_strdup("032049560546875000");
+	b = ft_strdup("");
+
+	char *pw = str_pow("5", 18);
+	char *prd = str_mul(a, "10");
+	char *s = str_add(prd, pw);
+
+	ft_printf("%s + %s = %s", prd, pw, s);
 
 	// char *s = str_mul(a, b);
-	// char *s = str_add(a, b);
-	char *s = str_pow(a, 5000);
-	ft_printf("%s\n", s);
+	// ft_printf("%f\n", 42.256);
+	// char *s = str_pow(a, 5000);
 	// printf("%llu", 999999999999999999999999 + 999999999999999999999);
 	// str_add(a, b);
 	// ft_p = ft_printf("%d|%-d|%23d|%.5d|%.50d|%-23d|%-.5d|%-.50d|%23.5d|%23.50d|%-23.5d|%-23.50d", 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256, 256);

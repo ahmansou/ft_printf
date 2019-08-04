@@ -76,3 +76,5 @@ char			*str_mul(char *a, char *b);
 char			*str_addzero(char *s1, char *s2);
 char			*str_delzero(char *s);
 char			*str_pow(char *a, int pow);
+char			*mant_addzero(char *mant, int sz);
+char	*str_addzeroback(char *s, int sz);

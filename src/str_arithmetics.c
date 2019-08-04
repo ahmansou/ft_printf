@@ -23,6 +23,7 @@ char			*str_add(char *a, char *b)
 	b = str_delzero(b);
 	a = (ft_strlen(b) > ft_strlen(a)) ? str_addzero(b, a) : a;
 	b = (ft_strlen(a) > ft_strlen(b)) ? str_addzero(a, b) : b;
+	ft_printf("%s + %s\n", a, b);
 	i = ft_strlen(a);
 	res = ft_strnew(i + 1);
 	ft_memset(&rst, '0', 2);
@@ -79,7 +80,7 @@ char			*str_mul(char *a, char *b)
 	ft_memset(prd, '0', ft_strlen(a) + ft_strlen(b));
 	tmp = ft_strnew(ft_strlen(a) + ft_strlen(b));
 	prd = do_mul(a, b, tmp, prd);
-	prd = str_delzero(prd);
+	// prd = str_delzero(prd);
 	return (prd);
 }
 
@@ -88,6 +89,8 @@ char		*str_pow(char *a, int pow)
 	char	*prd;
 
 	prd = ft_strdup("1");
+	// prd = ft_strnew(1);
+	// ft_memset(prd, '1', 1);
 	while (pow > 0)
 	{
 		prd = str_mul(prd, a);

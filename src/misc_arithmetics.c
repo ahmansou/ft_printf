@@ -20,8 +20,20 @@ char	*str_addzero(char *s1, char *s2)
 	s2 = ft_strnew(ft_strlen(s1) - ft_strlen(tmp));
 	ft_memset(s2, '0', ft_strlen(s1) - ft_strlen(tmp));
 	s2 = ft_strcat(s2, tmp);
-	free(tmp);
+	// free(tmp);
 	return (s2);
+}
+
+char	*str_addzeroback(char *s, int sz)
+{
+	char	*tmp;
+
+	tmp = s;
+	s = ft_strnew(sz);
+	ft_memset(s, '0', sz);
+	s = ft_strcat(tmp, s);
+	// free(tmp);
+	return (s);
 }
 
 char	*str_delzero(char *s)
