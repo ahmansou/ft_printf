@@ -20,20 +20,25 @@ int main()
 	// char	c = 'A';
 	// int		p = 0;
 	// int		ftp = 0;
-	char *a;
-	char *b;
+	// char *a;
+	// char *b;
 
-	a = ft_strdup("032049560546875000");
-	b = ft_strdup("");
+	// a = ft_strdup("0320495605468750000");
+	// b = ft_strdup("03814697265625");
 
-	char *pw = str_pow("5", 18);
-	char *prd = str_mul(a, "10");
-	char *s = str_add(prd, pw);
+	// char *pw = str_pow("5", 18);
+	// char *prd = str_mul(a, "10");
+	// prd = str_delzero(prd);
+	// pw = str_delzero(pw);
+	// char *s = str_add(prd, pw);
+	// char *s = str_add(a, b);
+	// char *s = str_add("3814697265625", "320495605468751 ");
 
-	ft_printf("%s + %s = %s", prd, pw, s);
+	// ft_printf("%s + %s = %s", a, b, s);
+	// ft_printf(" = %s", s);
 
 	// char *s = str_mul(a, b);
-	// ft_printf("%f\n", 42.256);
+	ft_printf("%f\n", 42.256);
 	// char *s = str_pow(a, 5000);
 	// printf("%llu", 999999999999999999999999 + 999999999999999999999);
 	// str_add(a, b);

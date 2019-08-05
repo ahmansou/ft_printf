@@ -35,14 +35,16 @@ static char *conv_mant(char *mant)
 	ft_memset(a, '0', 1);
 	while (mant[i])
 	{
-		a = str_mul(a, "10");
 		if (mant[i] == '1')
 		{
+			a = str_mul(a, "10");
+			// ft_printf("%s + ", a);
 			pw = str_pow("5", i + 1);
 			a = str_add(a, pw);
 			free(pw);
+			// ft_printf("%c * 5 ^ %d = %s\n", mant[i], i + 1, a);
+			// ft_printf("%s\n", a);
 		}
-		ft_printf("%c * 5 ^ %d = %s\n", mant[i], i + 1, a);
 		i++;
 	}
 	return (a);

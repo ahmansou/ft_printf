@@ -14,37 +14,23 @@
 
 char	*str_addzero(char *s1, char *s2)
 {
-	char	*tmp;
+	char	*s;
 
-	tmp = s2;
-	s2 = ft_strnew(ft_strlen(s1) - ft_strlen(tmp));
-	ft_memset(s2, '0', ft_strlen(s1) - ft_strlen(tmp));
-	s2 = ft_strcat(s2, tmp);
-	// free(tmp);
-	return (s2);
-}
-
-char	*str_addzeroback(char *s, int sz)
-{
-	char	*tmp;
-
-	tmp = s;
-	s = ft_strnew(sz);
-	ft_memset(s, '0', sz);
-	s = ft_strcat(tmp, s);
-	// free(tmp);
+	s = ft_strnew(ft_strlen(s1));
+	s = ft_memset(s, 48, ft_strlen(s1) - ft_strlen(s2));
+	s = ft_strcat(s, s2);
+	free(s2);
 	return (s);
 }
 
 char	*str_delzero(char *s)
 {
-	int i;
-	char *tmp;
+	char 	*r;
+	int		i;
 
 	i = 0;
 	while (s[i] == '0')
 		i++;
-	tmp = s;
-	s = ft_strsub(tmp, i, ft_strlen(tmp) - i);
-	return (s);
+	r = ft_strsub(s, i, ft_strlen(s) - i);
+	return (r);
 }
