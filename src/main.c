@@ -38,8 +38,10 @@ int main()
 	// ft_printf(" = %s", s);
 
 	// char *s = str_mul(a, b);
-	ft_printf("%.6Lf\n", 43.265L);
-	   printf("%.6Lf\n", 43.265L);
+	// ft_printf("%.6Lf\n", 43.265L);
+	//    printf("%.6Lf\n", 43.265L);
+	// ft_printf("\n%f|%-f|%+f|% f|%#f|%0f", 0., 0., 0., 0., 0., 0.);
+	   printf("\n%-+8.14f|%- 8.14f|%-#8.14f|%-08.14f|%-+#8.14f|%-+ #08.14f", 0., 0., 0., 0., 0., 0.);
 	// char *s = str_pow(a, 5000);
 	// printf("%llu", 999999999999999999999999 + 999999999999999999999);
 	// str_add(a, b);

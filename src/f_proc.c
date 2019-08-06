@@ -82,12 +82,11 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 	pow = str_mul(pow, mant);
 	pow = str_delzero(pow);
 	lenp = (int)ft_strlen(pow);
+	ft_printf("%d, %d, %d\n", pnt, flgs.pr, (int)ft_strlen(pow));
 	if (flgs.pr < pnt && flgs.pr)
 		pow = ft_round(pow, pnt, flgs.pr);
-
 	pow = str_delzero(pow);
 	indx = 0;
-	// ft_printf("%d, %d, %d\n", pnt, flgs.pr, (int)ft_strlen(pow));
 	while (indx < lenp - pnt)
 		ft_putchar(pow[indx++]);
 	ft_putchar('.');
@@ -100,3 +99,4 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 
 // 0b11111111111111 = 16383
 // 042256000000000000227373675443232059478759765625000000000000000000
+// 38546584900000001653097569942474365234375000000000000000000000000000

@@ -19,13 +19,17 @@ char    *ft_round(char *pow, int pnt, int pr)
     char    *temp;
     char    *tmp;
 
-    temp = NULL;
+    temp = pow;
     i = (int)ft_strlen(pow) - pnt + pr;
+    ft_putnbr(i);
+    ft_putendl("");
+        ft_putendl(pow);
     if (pow[i] >= '5')
     {
         i2 = i + 1;
         if (pow[i] == '5')
-            while (pow[i2] == '0' && i2 < (int)ft_strlen(pow))
+            // while (pow[i2] == '0' && i2 < (int)ft_strlen(pow))
+            while (pow[i2] == '0' && pow[i2])
                 i2++;
         if (i2 < (int)ft_strlen(pow) || pow[i - 1] % 2 != 0 || pow[i] > '5')
         {
@@ -34,5 +38,7 @@ char    *ft_round(char *pow, int pnt, int pr)
             temp = str_add(tmp, "1");
         }
     }
+    else
+        temp = ft_strsub(pow, 0, i);
     return (temp);
 }
