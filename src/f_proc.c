@@ -59,6 +59,7 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 	t_flags		flgs;
 	union u_ld	uld;
 	int			indx;
+	int 		lenp;
 
 	get_flgs(frm, &flgs, i, 'f');
 	// printf("\nmi : %d, plus : %d, space : %d, zero : %d, wd : %d, pr : %d, dot : %d, h : %d, l : %d,  L : %d \n",
@@ -80,8 +81,14 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 	}
 	pow = str_mul(pow, mant);
 	pow = str_delzero(pow);
+	lenp = (int)ft_strlen(pow);
+	if (flgs.pr < pnt && flgs.pr)
+		// printf("%s\n", ft_round(pow, pnt, flgs.pr));
+		pow = ft_round(pow, pnt, flgs.pr);
+	pow = str_delzero(pow);
 	indx = 0;
-	while (indx < (int)ft_strlen(pow) - pnt)
+	// ft_printf("%d, %d, %d\n", pnt, flgs.pr, (int)ft_strlen(pow));
+	while (indx < lenp - pnt)
 		ft_putchar(pow[indx++]);
 	ft_putchar('.');
 	while (pow[indx])
