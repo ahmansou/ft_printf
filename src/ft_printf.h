@@ -15,12 +15,14 @@
 #include <stdarg.h>
 #include "../libft/libft.h"
 
-typedef	struct		s_d
-{
-	unsigned long	mant : 52;
-	unsigned int	exp	: 11;
-	unsigned int	sign : 1;
-}					t_d;
+# define ABS(x) ((x < 0) ? (-x) : (x))
+
+// typedef	struct		s_d
+// {
+// 	unsigned long	mant : 52;
+// 	unsigned int	exp	: 11;
+// 	unsigned int	sign : 1;
+// }					t_d;
 
 typedef	struct		s_ld
 {

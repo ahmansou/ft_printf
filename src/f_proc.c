@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-union	u_d
-{
-	double	d;
-	t_d		ud;
-};
+// union	u_d
+// {
+// 	double	d;
+// 	t_d		ud;
+// };
 
 union	u_ld
 {
@@ -24,7 +24,16 @@ union	u_ld
 	t_ld		uld;
 };
 
-static char *conv_mant(char *mant)
+
+static	long double get_va_arg_f(va_list ap, t_flags flgs)
+{
+	if (flgs.L == 1)
+		return (va_arg(ap, long double));
+	else
+		return ((long double)va_arg(ap, double));
+}
+
+static char *conv_mant(char *mant, int exp)
 {
 	int		i;
 	char	*a;
@@ -32,18 +41,15 @@ static char *conv_mant(char *mant)
 
 	i = 0;
 	a = ft_strnew(1);
-	ft_memset(a, '0', 1);
+	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[i])
 	{
+		a = str_mul(a, "10");
 		if (mant[i] == '1')
 		{
-			a = str_mul(a, "10");
-			// ft_printf("%s + ", a);
 			pw = str_pow("5", i + 1);
 			a = str_add(a, pw);
 			free(pw);
-			// ft_printf("%c * 5 ^ %d = %s\n", mant[i], i + 1, a);
-			// ft_printf("%s\n", a);
 		}
 		i++;
 	}
@@ -53,37 +59,44 @@ static char *conv_mant(char *mant)
 void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
-	double		d;
+	int			pnt;
 	char		*mant;
+	char		*pow;
 	t_flags		flgs;
-	union u_d	ud;
 	union u_ld	uld;
+	int			indx;
 
 	get_flgs(frm, &flgs, i, 'f');
 	// printf("\nmi : %d, plus : %d, space : %d, zero : %d, wd : %d, pr : %d, dot : %d, h : %d, l : %d,  L : %d \n",
 	// flgs.mi, flgs.plus, flgs.space, flgs.zero, flgs.wd, flgs.pr, flgs.dot, flgs.h, flgs.l, flgs.L);
-	if (flgs.L)
+	// ld = va_arg(ap, long double);
+	ld = get_va_arg_f(ap, flgs);
+	uld.ld = ld;
+	mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
+	mant = conv_mant(mant, uld.uld.exp);
+	ft_printf("\nmantissa : %lu - %s\nexp      : %u\n",
+	uld.uld.mant, mant, uld.uld.exp);
+	if (uld.uld.exp - 16383 < 0)
 	{
-		ld = va_arg(ap, long double);
-		uld.ld = ld;
-		mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
-		ft_printf("\nmantissa : %lu - %s\nexp      : %u\n",
-		uld.uld.mant, mant, uld.uld.exp);
-		printf("%Lf", uld.ld);
+		pow = str_pow("5", ABS(uld.uld.exp - 16383));
+		pnt = ABS(uld.uld.exp - 16383) + 63;
 	}
 	else
 	{
-		d = va_arg(ap, double);
-		ud.d = d;
-		printf("%lf", ud.d);
-		mant = mant_addzero(itoa_base(ud.ud.mant, 2), 52);
-		ft_printf("\nmantissa : %lu - %s\nexp      : %u\n",
-		ud.ud.mant, mant, ud.ud.exp);
-		mant = conv_mant(mant);
-		ft_printf("%s", mant);
+		pow = str_pow("2", ABS(uld.uld.exp - 16383));
+		pnt = 63;
 	}
+	pow = str_mul(pow, mant);
+	pow = str_delzero(pow);
+	indx = 0;
+	while (indx < ft_strlen(pow) - pnt)
+		ft_putchar(pow[indx++]);
+	ft_putchar('.');
+	while (pow[indx])
+		ft_putchar(pow[indx++]);
+	// ft_printf("%s, %d", pow, ft_strlen(pow) - pnt);
 	*sz += 0;
 }
-// 0101001000001100010010011011101001011110001101010100
-// 0101001000001100010010011011101001011110001101010100
-// 02775557561544701457023620605468750000
+
+// 0b11111111111111 = 16383
+// 042256000000000000227373675443232059478759765625000000000000000000
