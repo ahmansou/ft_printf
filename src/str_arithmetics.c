@@ -40,14 +40,16 @@ char			*str_add(char *a, char *b)
 static	char	*do_mul(char *a, char *b, char *tmp, char *prd)
 {
 	int		i[3];
-	char	c[2];
+	char	*c;
+	char	*t;
 
 	i[1] = ft_strlen(b);
+	c = ft_strnew(2);
 	while (--i[1] >= 0)
 	{
 		i[2] = ft_strlen(a);
 		i[0] = (ft_strlen(a) + ft_strlen(b) - 1) - (ft_strlen(b) - (i[1] + 1));
-		ft_memset(&c, '0', 2);
+		ft_memset(c, '0', 2);
 		ft_memset(tmp, '0', ft_strlen(a) + ft_strlen(b));
 		while (--i[2] >= 0)
 		{
@@ -56,8 +58,11 @@ static	char	*do_mul(char *a, char *b, char *tmp, char *prd)
 			tmp[i[0]--] = c[1];
 		}
 		tmp[i[0]] = c[0];
-		prd = str_add(prd, tmp);
+		t = prd;
+		prd = str_add(t, tmp);
+		free(t);
 	}
+	free(c);
 	return (prd);
 }
 
@@ -72,18 +77,22 @@ char			*str_mul(char *a, char *b)
 	ft_memset(prd, '0', ft_strlen(a) + ft_strlen(b));
 	tmp = ft_strnew(ft_strlen(a) + ft_strlen(b));
 	prd = do_mul(a, b, tmp, prd);
+	free(tmp);
 	return (prd);
 }
 
 char		*str_pow(char *a, int pow)
 {
 	char	*prd;
+	char	*tmp;
 
 	prd = ft_strnew(1);
 	ft_memset(prd, '1', 1);
 	while (pow > 0)
 	{
-		prd = str_mul(prd, a);
+		tmp = prd;
+		prd = str_mul(tmp, a);
+		free(tmp);
 		pow--;
 	}
 	return prd;

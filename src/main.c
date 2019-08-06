@@ -38,8 +38,8 @@ int main()
 	// ft_printf(" = %s", s);
 
 	// char *s = str_mul(a, b);
-	ft_printf("%Lf\n", 42.256L);
-	printf("%.8Lf\n", 42.256L);
+	ft_printf("%Lf\n", 43.260L);
+	   printf("%.57Lf\n", 43.260L);
 	// char *s = str_pow(a, 5000);
 	// printf("%llu", 999999999999999999999999 + 999999999999999999999);
 	// str_add(a, b);

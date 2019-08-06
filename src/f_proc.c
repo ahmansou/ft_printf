@@ -12,12 +12,6 @@
 
 #include "ft_printf.h"
 
-// union	u_d
-// {
-// 	double	d;
-// 	t_d		ud;
-// };
-
 union	u_ld
 {
 	long double	ld;
@@ -74,8 +68,6 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 	uld.ld = ld;
 	mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
 	mant = conv_mant(mant, uld.uld.exp);
-	ft_printf("\nmantissa : %lu - %s\nexp      : %u\n",
-	uld.uld.mant, mant, uld.uld.exp);
 	if (uld.uld.exp - 16383 < 0)
 	{
 		pow = str_pow("5", ABS(uld.uld.exp - 16383));
@@ -89,12 +81,11 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 	pow = str_mul(pow, mant);
 	pow = str_delzero(pow);
 	indx = 0;
-	while (indx < ft_strlen(pow) - pnt)
+	while (indx < (int)ft_strlen(pow) - pnt)
 		ft_putchar(pow[indx++]);
 	ft_putchar('.');
 	while (pow[indx])
 		ft_putchar(pow[indx++]);
-	// ft_printf("%s, %d", pow, ft_strlen(pow) - pnt);
 	*sz += 0;
 }
 
