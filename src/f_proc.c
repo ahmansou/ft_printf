@@ -50,6 +50,18 @@ static char *conv_mant(char *mant, int exp)
 	return (a);
 }
 
+// void 			m_f(char *pow)
+// 	{
+// 		if (flgs->plus)
+// 			*sz += write(1, a&flgs->plus, 1) + 0 * flgs->wd--;
+// 		else if (flgs->space)
+// 			*sz += write(1, " ", 1) + 0 * flgs->wd--;
+// 		(!flgs->pr && flgs->dot && !d) ? 0 : ft_putnbr(d);
+// 		*sz += (!flgs->pr && flgs->dot && !d) ? 0 : n_len(d);
+// 		flgs->wd -= (!flgs->pr && flgs->dot && !d) ? 0 : n_len(d);
+// 		*sz += put_space(flgs->wd);
+// 	}
+
 void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
@@ -58,43 +70,28 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 	char		*pow;
 	t_flags		flgs;
 	union u_ld	uld;
-	int			indx;
 	int 		lenp;
 
 	get_flgs(frm, &flgs, i, 'f');
 	// printf("\nmi : %d, plus : %d, space : %d, zero : %d, wd : %d, pr : %d, dot : %d, h : %d, l : %d,  L : %d \n",
 	// flgs.mi, flgs.plus, flgs.space, flgs.zero, flgs.wd, flgs.pr, flgs.dot, flgs.h, flgs.l, flgs.L);
-	// ld = va_arg(ap, long double);
 	ld = get_va_arg_f(ap, flgs);
+	if (ld < 0 && (ld *= -1))
+		flgs.plus = '-';
 	uld.ld = ld;
 	mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
 	mant = conv_mant(mant, uld.uld.exp);
-	if (uld.uld.exp - 16383 < 0)
-	{
+	if (uld.uld.exp - 16383 < 0 && (pnt = ABS(uld.uld.exp - 16383) + 63))
 		pow = str_pow("5", ABS(uld.uld.exp - 16383));
-		pnt = ABS(uld.uld.exp - 16383) + 63;
-	}
-	else
-	{
+	else if (uld.uld.exp - 16383 >= 0 && (pnt = 63))
 		pow = str_pow("2", ABS(uld.uld.exp - 16383));
-		pnt = 63;
-	}
 	pow = str_mul(pow, mant);
 	pow = str_delzero(pow);
 	lenp = (int)ft_strlen(pow);
-	ft_printf("%d, %d, %d\n", pnt, flgs.pr, (int)ft_strlen(pow));
 	if (flgs.pr < pnt && flgs.pr)
 		pow = ft_round(pow, pnt, flgs.pr);
 	pow = str_delzero(pow);
-	indx = 0;
-	while (indx < lenp - pnt)
-		ft_putchar(pow[indx++]);
-	ft_putchar('.');
-	while (pow[indx])
-		ft_putchar(pow[indx++]);
-	if (flgs.pr >= pnt)
-		*sz += put_zero(flgs.pr - pnt);
-	*sz += (int)ft_strlen(pow) + 1;
+	*sz += print_f(pow, lenp, pnt, flgs.pr);
 }
 
 // 0b11111111111111 = 16383

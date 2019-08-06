@@ -74,3 +74,4 @@ char			*str_pow(char *a, int pow);
 char			*mant_addzero(char *mant, int sz);
 char	*str_addzeroback(char *s, int sz);
 char    *ft_round(char *pow, int pnt, int pr);
+int		print_f(char *pow, int lenp, int pnt, int pr);

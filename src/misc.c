@@ -61,3 +61,22 @@ int		n_len(long long n)
 		size++;
 	return (size);
 }
+
+int		print_f(char *pow, int lenp, int pnt, int pr)
+{
+	int indx;
+	int count;
+
+	indx = 0;
+	count = 0;
+	while (indx < lenp - pnt)
+		ft_putchar(pow[indx++]);
+	ft_putchar('.');
+	count += indx + 1;
+	while (pow[indx])
+		ft_putchar(pow[indx++]);
+	count += indx;
+	if (pr >= pnt)
+		count += put_zero(pr - pnt);
+	return (count);
+}
