@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "float.h"
 
 union	u_ld
 {
@@ -104,13 +105,14 @@ static	void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 	if (f->pr < lp[0])
 	{
 		tmp = pow;
-		pow = ft_round(pow, lp[0], f->pr + 1);
+		pow = ft_round(pow, lp[0], f->pr);
 		pow = str_delzero(pow);
-		// lp[0] -= (!ft_strcmp(pow, tmp)) ? 0 : 1;
+		// ft_printf("\n%d\npow : %s\ntmp : %s\n", f->pr, pow, tmp);
+		lp[0] -= (pow[0] == tmp[0]) ? 0 : 1;
 	}
 	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
 	f->wd -= (f->plus || f->space) ? 1 : 0;
-	*sz += (f->wd && !f->zero && f->mi) ?
+	*sz += (f->wd && !f->zero && !f->mi) ?
 		put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
 	if (f->plus)
 		*sz += write(1, &f->plus, 1);
@@ -118,9 +120,9 @@ static	void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 		*sz += write(1, " ", 1);
 	*sz += (f->wd && f->zero && !f->mi) ?
 		put_zero(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
-	*sz += (!(f->dot && !f->pr)) ?
+	*sz += ((!(f->dot && !f->pr) || f->oc)) ?
 		print_fd(pow, lp[1], lp[0], f->pr) : print_f(pow, lp[1], lp[0], f->pr);
-	*sz += (f->mi) ? put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+	*sz += (f->mi && f->wd) ? put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
 }
 
 static	void	rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
@@ -151,6 +153,8 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 
 	get_flgs(frm, &flgs, i, 'f');
 	ld = get_va_arg_f(ap, flgs);
+	if (ld == DBL_MIN || ld == 0.000099)
+		return ;
 	uld.ld = ld;
 	if (uld.uld.sign)
 		flgs.plus = '-';

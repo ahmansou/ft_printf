@@ -71,8 +71,7 @@ int		print_fd(char *pow, int lenp, int pnt, int pr)
 	count = 0;
 	while (indx < lenp - pnt)
 		ft_putchar(pow[indx++]);
-	ft_putchar('.');
-	count += indx + 1;
+	count += write(1, ".", 1);
 	while (indx < pr + lenp - pnt && pow[indx])
 		ft_putchar(pow[indx++]);
 	count += indx;
