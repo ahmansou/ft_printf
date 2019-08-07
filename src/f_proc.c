@@ -100,14 +100,14 @@ static	void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 {
 	char *tmp;
 
+	f->pr = (!f->pr && !f->dot) ? 6 : f->pr;
 	if (f->pr < lp[0])
 	{
 		tmp = pow;
 		pow = ft_round(pow, lp[0], f->pr + 1);
 		pow = str_delzero(pow);
-		lp[0] -= (!ft_strcmp(pow, tmp)) ? 0 : 1;
+		// lp[0] -= (!ft_strcmp(pow, tmp)) ? 0 : 1;
 	}
-	f->pr = (!f->pr && !f->dot) ? 6 : f->pr;
 	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
 	f->wd -= (f->plus || f->space) ? 1 : 0;
 	*sz += (f->wd && !f->zero && f->mi) ?
@@ -118,7 +118,7 @@ static	void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 		*sz += write(1, " ", 1);
 	*sz += (f->wd && f->zero && !f->mi) ?
 		put_zero(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
-	*sz += (f->dot) ?
+	*sz += (!(f->dot && !f->pr)) ?
 		print_fd(pow, lp[1], lp[0], f->pr) : print_f(pow, lp[1], lp[0], f->pr);
 	*sz += (f->mi) ? put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
 }
