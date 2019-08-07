@@ -50,50 +50,120 @@ static char *conv_mant(char *mant, int exp)
 	return (a);
 }
 
-// void 			m_f(char *pow)
-// 	{
-// 		if (flgs->plus)
-// 			*sz += write(1, a&flgs->plus, 1) + 0 * flgs->wd--;
-// 		else if (flgs->space)
-// 			*sz += write(1, " ", 1) + 0 * flgs->wd--;
-// 		(!flgs->pr && flgs->dot && !d) ? 0 : ft_putnbr(d);
-// 		*sz += (!flgs->pr && flgs->dot && !d) ? 0 : n_len(d);
-// 		flgs->wd -= (!flgs->pr && flgs->dot && !d) ? 0 : n_len(d);
-// 		*sz += put_space(flgs->wd);
-// 	}
+static	void	z_proc(t_flags *flgs, int *sz)
+{
+	char	*z;
+
+	if (!flgs->pr && flgs->dot && !flgs->oc)
+		z = ft_strdup("0");
+	else
+		z = ft_strdup("0.");
+	flgs->pr = (!flgs->pr && !flgs->dot) ? 6 : flgs->pr;
+	flgs->wd -= (flgs->plus || flgs->space) ? 1 : 0;
+	*sz += (flgs->wd && !flgs->zero && !flgs->mi) ? 
+		put_space(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
+	if (flgs->plus)
+		*sz += write(1, &flgs->plus, 1);
+	else if (flgs->space)
+		*sz += write(1, " ", 1);
+	*sz += (flgs->zero && !flgs->mi) ?
+		put_zero(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
+	ft_putstr(z);
+	*sz +=  ft_strlen(z);
+	*sz += put_zero(flgs->pr);
+	*sz += (flgs->mi) ? put_space(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
+	free(z);
+}
+
+static	void	infnan_proc(t_flags *f, int *sz, char *mant)
+{
+	char	*inf;
+	int		isinf;
+
+	isinf = 0;
+	if (check_mant_zero(mant) && (isinf = 1))
+		inf = ft_strdup("inf");
+	else
+		inf = ft_strdup("nan");
+	f->wd -= (isinf && (f->plus || f->space)) ? 1 : 0; 
+	*sz += (!f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0 ;
+	if (f->plus && isinf)
+		*sz += write(1, &f->plus, 1);
+	else if (f->space && isinf)
+		*sz += write(1, " ", 1);
+	ft_putstr(inf);
+	*sz += ft_strlen(inf);
+	*sz += (f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0 ;
+}
+
+static	void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
+{
+	char *tmp;
+
+	if (f->pr < lp[0])
+	{
+		tmp = pow;
+		pow = ft_round(pow, lp[0], f->pr + 1);
+		pow = str_delzero(pow);
+		lp[0] -= (!ft_strcmp(pow, tmp)) ? 0 : 1;
+	}
+	f->pr = (!f->pr && !f->dot) ? 6 : f->pr;
+	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
+	f->wd -= (f->plus || f->space) ? 1 : 0;
+	*sz += (f->wd && !f->zero && f->mi) ?
+		put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+	if (f->plus)
+		*sz += write(1, &f->plus, 1);
+	else if (f->space)
+		*sz += write(1, " ", 1);
+	*sz += (f->wd && f->zero && !f->mi) ?
+		put_zero(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+	*sz += (f->dot) ?
+		print_fd(pow, lp[1], lp[0], f->pr) : print_f(pow, lp[1], lp[0], f->pr);
+	*sz += (f->mi) ? put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+}
+
+static	void	rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
+{
+	int			lp[2];
+	char		*pow;
+
+	mant = conv_mant(mant, ld.uld.exp);
+	if (ld.uld.exp - 16383 < 0 && (lp[0] = ABS(ld.uld.exp - 16383) + 63))
+		pow = str_pow("5", ABS(ld.uld.exp - 16383));
+	else
+	{
+		pow = str_pow("2", ABS(ld.uld.exp - 16383));
+		lp[0] = 63;
+	}
+	pow = str_mul(pow, mant);
+	pow = str_delzero(pow);
+	lp[1] = (int)ft_strlen(pow);
+	rrf_proc(f, sz, pow, lp);
+}
 
 void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
-	int			pnt;
 	char		*mant;
-	char		*pow;
 	t_flags		flgs;
 	union u_ld	uld;
-	int 		lenp;
 
 	get_flgs(frm, &flgs, i, 'f');
-	// printf("\nmi : %d, plus : %d, space : %d, zero : %d, wd : %d, pr : %d, dot : %d, h : %d, l : %d,  L : %d \n",
-	// flgs.mi, flgs.plus, flgs.space, flgs.zero, flgs.wd, flgs.pr, flgs.dot, flgs.h, flgs.l, flgs.L);
 	ld = get_va_arg_f(ap, flgs);
-	if (ld < 0 && (ld *= -1))
-		flgs.plus = '-';
 	uld.ld = ld;
-	mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
-	mant = conv_mant(mant, uld.uld.exp);
-	if (uld.uld.exp - 16383 < 0 && (pnt = ABS(uld.uld.exp - 16383) + 63))
-		pow = str_pow("5", ABS(uld.uld.exp - 16383));
-	else if (uld.uld.exp - 16383 >= 0 && (pnt = 63))
-		pow = str_pow("2", ABS(uld.uld.exp - 16383));
-	pow = str_mul(pow, mant);
-	pow = str_delzero(pow);
-	lenp = (int)ft_strlen(pow);
-	if (flgs.pr < pnt && flgs.pr)
-		pow = ft_round(pow, pnt, flgs.pr);
-	pow = str_delzero(pow);
-	*sz += print_f(pow, lenp, pnt, flgs.pr);
+	if (uld.uld.sign)
+		flgs.plus = '-';
+	if (ld == 0)
+		z_proc(&flgs, sz);
+	else
+	{
+		mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
+		if (uld.uld.exp == 32767)
+		{
+			infnan_proc(&flgs, sz, mant);
+			return ;
+		}
+		rf_proc(&flgs, sz, mant, uld);
+	}
 }
-
-// 0b11111111111111 = 16383
-// 042256000000000000227373675443232059478759765625000000000000000000
-// 38546584900000001653097569942474365234375000000000000000000000000000

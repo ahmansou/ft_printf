@@ -43,8 +43,7 @@ static	int		sub_w(t_flags flgs, long long d)
 static	void	no_m_d(long long d, t_flags *flgs, int *sz)
 {
 	flgs->wd -= sub_w(*flgs, d);
-	*sz += (!flgs->zero || flgs->dot) ?
-		put_space(flgs->wd) : 0;
+	*sz += (!flgs->zero || flgs->dot) ? put_space(flgs->wd) : 0;
 	if (flgs->plus)
 		*sz += write(1, &flgs->plus, 1);
 	else if (flgs->space && d >= 0)

@@ -39,3 +39,15 @@ char    *ft_round(char *pow, int pnt, int pr)
         temp = ft_strsub(pow, 0, i);
     return (temp);
 }
+
+int     check_mant_zero(char *mant)
+{
+    int i;
+
+    i = 0;
+    while (mant[i] == '0' && mant[i])
+        i++;
+    if (i < (int)ft_strlen(mant))
+        return (0);
+    return (1);
+}
