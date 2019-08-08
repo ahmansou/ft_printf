@@ -31,7 +31,7 @@ char    *ft_round(char *pow, int pnt, int pr)
         {
             temp = ft_strsub(pow, 0, i);
             tmp = temp;
-            temp = str_add(tmp, "1");
+            temp = ft_add_str(tmp, "1");
             free(tmp);
         }
     }

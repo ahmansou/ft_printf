@@ -15,8 +15,6 @@
 #include <stdarg.h>
 #include "../libft/libft.h"
 
-# define ABS(x) ((x < 0) ? (-x) : (x))
-
 typedef	struct		s_ld
 {
 	unsigned long	mant : 63;
@@ -46,6 +44,8 @@ typedef	struct s_flags
 	int L;
 	int oc;
 }				t_flags;
+
+
 
 t_types	get_types();
 
@@ -77,3 +77,7 @@ char    *ft_round(char *pow, int pnt, int pr);
 int		print_f(char *pow, int lenp, int pnt, int pr);
 int		print_fd(char *pow, int lenp, int pnt, int pr);
 int     check_mant_zero(char *mant);
+
+char	*ft_add_str(char *s1, char *s2);
+char			*ft_mult_str(char *s1, char *s2, int flag);
+void			ft_strrev(char *s);

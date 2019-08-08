@@ -91,7 +91,7 @@ char		*str_pow(char *a, int pow)
 	while (pow > 0)
 	{
 		tmp = prd;
-		prd = str_mul(tmp, a);
+		prd = ft_mult_str(tmp, a, 0);
 		free(tmp);
 		pow--;
 	}

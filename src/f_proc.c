@@ -39,15 +39,18 @@ static char *conv_mant(char *mant, int exp)
 	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[i])
 	{
-		a = str_mul(a, "10");
+		a = ft_mult_str(a, "10", 1);
+		//ft_printf("10 * %s + 5 ^ %d = ", a, i + 1);
 		if (mant[i] == '1')
 		{
 			pw = str_pow("5", i + 1);
-			a = str_add(a, pw);
+			a = ft_add_str(a, pw);
+			//ft_printf("%s\n", a);
 			free(pw);
 		}
 		i++;
 	}
+	// printf("--->%s\n", a);
 	return (a);
 }
 
@@ -107,8 +110,33 @@ static	void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 		tmp = pow;
 		pow = ft_round(pow, lp[0], f->pr);
 		pow = str_delzero(pow);
-		// ft_printf("\n%d\npow : %s\ntmp : %s\n", f->pr, pow, tmp);
-		lp[0] -= (pow[0] == tmp[0]) ? 0 : 1;
+		free(tmp);
+	}
+	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
+	f->wd -= (f->plus || f->space) ? 1 : 0;
+	*sz += (f->wd && !f->zero && !f->mi) ?
+		put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+	if (f->plus)
+		*sz += write(1, &f->plus, 1);
+	else if (f->space)
+		*sz += write(1, " ", 1);
+	*sz += (f->wd && f->zero && !f->mi) ?
+		put_zero(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+	*sz += ((!(f->dot && !f->pr) || f->oc)) ?
+		print_fd(pow, lp[1], lp[0], f->pr) : print_f(pow, lp[1], lp[0], f->pr);
+	*sz += (f->mi && f->wd) ? put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+}
+
+static	void	subone_proc(t_flags *f, int *sz, char *pow, int lp[])
+{
+	char *tmp;
+
+	f->pr = (!f->pr && !f->dot) ? 6 : f->pr;
+	if (f->pr < lp[0])
+	{
+		tmp = pow;
+		pow = ft_round(pow, lp[0], f->pr);
+		free(tmp);
 	}
 	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
 	f->wd -= (f->plus || f->space) ? 1 : 0;
@@ -129,19 +157,34 @@ static	void	rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 {
 	int			lp[2];
 	char		*pow;
+	char		*tmp;
 
 	mant = conv_mant(mant, ld.uld.exp);
-	if (ld.uld.exp - 16383 < 0 && (lp[0] = ABS(ld.uld.exp - 16383) + 63))
-		pow = str_pow("5", ABS(ld.uld.exp - 16383));
+	if (ld.uld.exp - 16383 < 0 && (lp[0] = ((ld.uld.exp - 16383) * -1) + 63))
+	{
+
+		pow = str_pow("5", (ld.uld.exp - 16383) * -1);
+	}
 	else
 	{
-		pow = str_pow("2", ABS(ld.uld.exp - 16383));
+		pow = str_pow("2", ld.uld.exp - 16383);
 		lp[0] = 63;
 	}
 	pow = str_mul(pow, mant);
-	pow = str_delzero(pow);
+	// ft_putendl(pow);
+	if (!(ld.ld > 0 && ld.ld < 1))
+		pow = str_delzero(pow);
 	lp[1] = (int)ft_strlen(pow);
-	rrf_proc(f, sz, pow, lp);
+	if (ld.ld > 0 && ld.ld < 1)
+	{
+		// ft_printf("\n%d\n", f->pr - ft_strlen(pow));
+		tmp = ft_strnew(f->pr - ft_strlen(pow));
+		ft_memset(tmp, '0', f->pr - ft_strlen(pow));
+		pow = ft_strjoin(tmp, pow);
+		subone_proc(f, sz, pow, lp);
+	}
+	else
+		rrf_proc(f, sz, pow, lp);
 }
 
 void			f_proc(const char *frm, va_list ap, int *i, int *sz)
@@ -153,8 +196,8 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 
 	get_flgs(frm, &flgs, i, 'f');
 	ld = get_va_arg_f(ap, flgs);
-	if (ld == DBL_MIN || ld == 0.000099)
-		return ;
+	// if (ld == DBL_MIN || ld == 0.000099)
+	// 	return ;
 	uld.ld = ld;
 	if (uld.uld.sign)
 		flgs.plus = '-';
@@ -162,7 +205,10 @@ void			f_proc(const char *frm, va_list ap, int *i, int *sz)
 		z_proc(&flgs, sz);
 	else
 	{
+		// printf("%lu\n", uld.uld.mant);
+		// printf("%s\n", itoa_base(uld.uld.mant, 2));
 		mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
+		// ft_putendl(mant);
 		if (uld.uld.exp == 32767)
 		{
 			infnan_proc(&flgs, sz, mant);
