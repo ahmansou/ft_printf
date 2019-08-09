@@ -50,6 +50,7 @@ static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 {
 	int			lp[2];
 	char		*pow;
+	char		*tmp;
 
 	mant = conv_mant(mant, ld.uld.exp);
 	if (ld.uld.exp - 16383 < 0 && (lp[0] = ((ld.uld.exp - 16383) * -1) + 63))
@@ -59,7 +60,9 @@ static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 		pow = str_pow("2", ld.uld.exp - 16383);
 		lp[0] = 63;
 	}
+	tmp = pow;
 	pow = str_mul(pow, mant, 0);
+	free(tmp);
 	if (!(ld.ld > 0 && ld.ld < 1))
 		pow = str_delzero(pow);
 	lp[1] = (int)ft_strlen(pow);
@@ -73,6 +76,7 @@ void				f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
 	char		*mant;
+	char		*tmp;
 	t_flags		flgs;
 	union u_ld	uld;
 
@@ -87,13 +91,13 @@ void				f_proc(const char *frm, va_list ap, int *i, int *sz)
 		z_proc(&flgs, sz);
 	else
 	{
-		mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
+		tmp = itoa_base(uld.uld.mant, 2);
+		mant = mant_addzero(tmp, 63);
+		free(tmp);
 		if (uld.uld.exp == 32767)
-		{
 			infnan_proc(&flgs, sz, mant);
-			return ;
-		}
 		else
 			rf_proc(&flgs, sz, mant, uld);
+		free(mant);
 	}
 }
