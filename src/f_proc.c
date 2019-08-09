@@ -93,11 +93,11 @@ void				f_proc(const char *frm, va_list ap, int *i, int *sz)
 	{
 		tmp = itoa_base(uld.uld.mant, 2);
 		mant = mant_addzero(tmp, 63);
-		free(tmp);
 		if (uld.uld.exp == 32767)
 			infnan_proc(&flgs, sz, mant);
 		else
 			rf_proc(&flgs, sz, mant, uld);
+		free(tmp);
 		free(mant);
 	}
 }

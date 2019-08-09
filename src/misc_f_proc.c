@@ -49,6 +49,7 @@ void		rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 		print_fd(pow, lp[1], lp[0], f->pr) : print_f(pow, lp[1], lp[0], f->pr);
 	*sz += (f->mi && f->wd) ?
 		put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
+	free(pow);
 }
 
 static char	*init_sub(int len, int *p, char *pow, int pr)
@@ -91,4 +92,5 @@ void		sub_proc(t_flags *f, int *sz, char *pow, int lp[])
 	*sz += ((!(f->dot && !f->pr) || f->oc)) ?
 		p_fsubd(pow, lp[1], lp[0], f->pr) : p_fsub(pow, lp[1], lp[0]);
 	*sz += (f->mi && f->wd) ? put_space(f->wd - (f->pr + 2)) : 0;
+	free(pow);
 }
