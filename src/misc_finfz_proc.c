@@ -34,7 +34,7 @@ void	z_proc(t_flags *flgs, int *sz)
 	*sz += ft_strlen(z);
 	*sz += put_zero(flgs->pr);
 	*sz += (flgs->mi) ? put_space(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
-	// free(z);
+	free(z);
 }
 
 void	infnan_proc(t_flags *f, int *sz, char *mant)
@@ -56,5 +56,5 @@ void	infnan_proc(t_flags *f, int *sz, char *mant)
 	ft_putstr(inf);
 	*sz += ft_strlen(inf);
 	*sz += (f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0;
-	// free(inf);
+	free(inf);
 }
