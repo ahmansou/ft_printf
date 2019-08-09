@@ -32,5 +32,6 @@ char	*str_delzero(char *s)
 	while (s[i] == '0')
 		i++;
 	r = ft_strsub(s, i, ft_strlen(s) - i);
+	free(s);
 	return (r);
 }

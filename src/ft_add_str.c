@@ -12,27 +12,27 @@
 
 #include "ft_printf.h"
 
-static char	*ft_bzero_0(char *s, size_t n)
-{
-	char	*res;
-	int		i;
+// static char	*ft_bzero_0(char *s, size_t n)
+// {
+// 	char	*res;
+// 	int		i;
 
-	i = ft_strlen(s) - 1;
-	res = ft_strnew(n);
-	n = n - 1;
-	while ((int)n >= 0)
-	{
-		if (i >= 0)
-		{
-			res[n] = s[i];
-			i--;
-		}
-		else
-			res[n] = '0';
-		n--;
-	}
-	return (res);
-}
+// 	i = ft_strlen(s) - 1;
+// 	res = ft_strnew(n);
+// 	n = n - 1;
+// 	while ((int)n >= 0)
+// 	{
+// 		if (i >= 0)
+// 		{
+// 			res[n] = s[i];
+// 			i--;
+// 		}
+// 		else
+// 			res[n] = '0';
+// 		n--;
+// 	}
+// 	return (res);
+// }
 
 static void	ft_swap(char *s1, char *s2)
 {

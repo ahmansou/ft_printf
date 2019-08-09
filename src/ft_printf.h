@@ -81,3 +81,10 @@ int     check_mant_zero(char *mant);
 char	*ft_add_str(char *s1, char *s2);
 char			*ft_mult_str(char *s1, char *s2, int flag);
 void			ft_strrev(char *s);
+int p_fsubd(char *s, int len, int pnt, int pr);
+int p_fsub(char *s, int len, int pnt);
+
+void	infnan_proc(t_flags *f, int *sz, char *mant);
+void	z_proc(t_flags *flgs, int *sz);
+void	rrf_proc(t_flags *f, int *sz, char *pow, int lp[]);
+void	sub_proc(t_flags *f, int *sz, char *pow, int lp[]);

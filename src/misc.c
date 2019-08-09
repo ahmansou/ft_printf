@@ -96,3 +96,35 @@ int		print_f(char *pow, int lenp, int pnt, int pr)
 		count += put_zero(pr - pnt);
 	return (count);
 }
+
+int p_fsubd(char *s, int len, int pnt, int pr)
+{
+	int i;
+	int j;
+	int c;
+
+	i = 0;
+	c = 0;
+	while (i + 1< len - pnt && (s[i + 1]))
+		i++;
+	c += write(1, &s[i++], 1);
+	c += write(1, ".", 1);
+	j = 0;
+	while (j <= pr && s[i + j])
+		c += write(1, &s[i + j++], 1);
+	c += put_zero(pr - j);
+	return (c);
+}
+
+int p_fsub(char *s, int len, int pnt)
+{
+	int i;
+	int c;
+
+	i = 0;
+	c = 0;
+	while (i + 1< len - pnt && (s[i + 1]))
+		i++;
+	c += write(1, &s[i++], 1);
+	return (c);
+}
