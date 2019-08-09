@@ -32,10 +32,12 @@ static char			*conv_mant(char *mant, int exp)
 	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[i])
 	{
+		tmpa = a;
 		a = str_mul(a, "10", 1);
+		free(tmpa);
 		if (mant[i] == '1')
 		{
-			pw = str_pow("5", i + 1);
+			pw = str_pow(ft_strdup("5"), i + 1);
 			tmpa = a;
 			a = str_add(a, pw);
 			free(tmpa);
@@ -76,7 +78,6 @@ void				f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
 	char		*mant;
-	char		*tmp;
 	t_flags		flgs;
 	union u_ld	uld;
 
@@ -91,13 +92,11 @@ void				f_proc(const char *frm, va_list ap, int *i, int *sz)
 		z_proc(&flgs, sz);
 	else
 	{
-		tmp = itoa_base(uld.uld.mant, 2);
-		mant = mant_addzero(tmp, 63);
+		mant = mant_addzero(itoa_base(uld.uld.mant, 2), 63);
 		if (uld.uld.exp == 32767)
 			infnan_proc(&flgs, sz, mant);
 		else
 			rf_proc(&flgs, sz, mant, uld);
-		free(tmp);
 		free(mant);
 	}
 }

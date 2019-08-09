@@ -24,5 +24,6 @@ char	*mant_addzero(char *mant, int sz)
 	j = ft_strlen(mant) - 1;
 	while (j >= 0)
 		a[i--] = mant[j--];
+	free(mant);
 	return (a);
 }
