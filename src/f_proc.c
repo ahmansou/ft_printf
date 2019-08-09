@@ -32,9 +32,7 @@ static char			*conv_mant(char *mant, int exp)
 	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[i])
 	{
-		tmpa = a;
 		a = str_mul(a, "10", 1);
-		free(tmpa);
 		if (mant[i] == '1')
 		{
 			pw = str_pow("5", i + 1);
