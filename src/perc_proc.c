@@ -12,16 +12,16 @@
 
 #include "ft_printf.h"
 
-void    perc_proc(const char *frm, va_list ap, int *i, int *sz)
+void	perc_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	int		indx;
 	t_flags	flgs;
 
-    indx = *i;
-    (void)ap;
-    while(frm[indx] != '%')
-        indx++;
-    get_flgs(frm, &flgs, i, '%');
+	indx = *i;
+	(void)ap;
+	while (frm[indx] != '%')
+		indx++;
+	get_flgs(frm, &flgs, i, '%');
 	if (flgs.mi)
 	{
 		*sz += write(1, "%", 1);

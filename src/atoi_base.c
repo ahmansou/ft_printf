@@ -14,9 +14,9 @@
 
 char	*itoa_base(unsigned long long nbr, int base)
 {
-	char 				*str;
+	char				*str;
 	unsigned long long	temp;
-	int 				count;
+	int					count;
 	char				*res;
 
 	temp = nbr;
@@ -25,7 +25,33 @@ char	*itoa_base(unsigned long long nbr, int base)
 	{
 		res = ft_strnew(1);
 		res[0] = '0';
-		return(res);
+		return (res);
+	}
+	while (temp != 0 && count++ > -1)
+		temp /= base;
+	res = ft_strnew(count);
+	while (nbr != 0)
+	{
+		res[--count] = str[nbr % base];
+		nbr /= base;
+	}
+	return (res);
+}
+
+char	*itoa_basecap(unsigned long long nbr, int base)
+{
+	char				*str;
+	unsigned long long	temp;
+	int					count;
+	char				*res;
+
+	temp = nbr;
+	str = "0123456789ABCDEF";
+	if (!(count = 0) && nbr == 0)
+	{
+		res = ft_strnew(1);
+		res[0] = '0';
+		return (res);
 	}
 	while (temp != 0 && count++ > -1)
 		temp /= base;

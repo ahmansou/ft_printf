@@ -23,7 +23,7 @@ static	void	set_flgs(t_flags *flgs)
 	flgs->dot = 0;
 	flgs->h = 0;
 	flgs->l = 0;
-	flgs->L = 0;
+	flgs->lcap = 0;
 	flgs->oc = 0;
 }
 
@@ -36,7 +36,7 @@ static	void	get_hl(const char *frm, t_flags *flgs, int *i, char c)
 	else if (frm[*i - 1] == 'l')
 		flgs->l = (frm[*i - 2] == 'l') ? 2 : 1;
 	else if (frm[*i - 1] == 'L')
-		flgs->L = 1;
+		flgs->lcap = 1;
 }
 
 void			get_flgs(const char *frm, t_flags *flgs, int *i, char c)

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-unsigned long long get_va_arg_o(va_list ap, t_flags flgs)
+unsigned long long	get_va_arg_o(va_list ap, t_flags flgs)
 {
 	if (flgs.h == 1)
 		return ((unsigned short)va_arg(ap, int));
@@ -25,10 +25,11 @@ unsigned long long get_va_arg_o(va_list ap, t_flags flgs)
 	else
 		return (va_arg(ap, unsigned int));
 }
-static	int		sub_w_o(t_flags flgs, char *o)
+
+static	int			sub_w_o(t_flags flgs, char *o)
 {
 	int c;
-	
+
 	c = 0;
 	c += (flgs.oc) ? 1 : 0;
 	c += (flgs.pr > (int)ft_strlen(o)) ? flgs.pr : (int)ft_strlen(o);
@@ -36,7 +37,7 @@ static	int		sub_w_o(t_flags flgs, char *o)
 	return (c);
 }
 
-static	void	no_m_o(char *o, t_flags *flgs, int *sz)
+static void			no_m_o(char *o, t_flags *flgs, int *sz)
 {
 	flgs->wd -= sub_w_o(*flgs, o);
 	if (flgs->oc && flgs->pr > (int)ft_strlen(o) && o[0] != '0')
@@ -50,11 +51,11 @@ static	void	no_m_o(char *o, t_flags *flgs, int *sz)
 		*sz += write(1, "0", 1) + 0 * flgs->pr--;
 	*sz += (((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
 		0 : (int)ft_strlen(o);
-		   (((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
+	(((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
 		0 : ft_putstr(o);
 }
 
-static	void	m_o(char *o, t_flags *flgs, int *sz)
+static void			m_o(char *o, t_flags *flgs, int *sz)
 {
 	flgs->pr -= (flgs->oc && o[0] != '0') ? 1 : 0;
 	if (flgs->pr > (int)ft_strlen(o))
@@ -66,14 +67,14 @@ static	void	m_o(char *o, t_flags *flgs, int *sz)
 		*sz += write(1, "0", 1) + 0 * flgs->wd--;
 	(((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
 		0 : ft_putstr(o);
-	*sz += 		(((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
+	*sz += (((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
 		0 : (int)ft_strlen(o);
 	flgs->wd -= (((!flgs->pr && flgs->dot) || flgs->oc) && o[0] == '0') ?
 		0 : (int)ft_strlen(o);
 	*sz += put_space(flgs->wd);
 }
 
-void	o_proc(const char *frm, va_list ap, int *i, int *sz)
+void				o_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	unsigned long long	o;
 	char				*s;

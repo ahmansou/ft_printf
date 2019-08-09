@@ -25,7 +25,7 @@ char	*str_addzero(char *s1, char *s2)
 
 char	*str_delzero(char *s)
 {
-	char 	*r;
+	char	*r;
 	int		i;
 
 	i = 0;
@@ -34,4 +34,21 @@ char	*str_delzero(char *s)
 	r = ft_strsub(s, i, ft_strlen(s) - i);
 	free(s);
 	return (r);
+}
+
+char	*str_pow(char *a, int pow)
+{
+	char	*prd;
+	char	*tmp;
+
+	prd = ft_strnew(1);
+	ft_memset(prd, '1', 1);
+	while (pow > 0)
+	{
+		tmp = prd;
+		prd = str_mul(tmp, a, 0);
+		free(tmp);
+		pow--;
+	}
+	return (prd);
 }

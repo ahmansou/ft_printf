@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   x_proc.c                                           :+:      :+:    :+:   */
+/*   capx_proc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahmansou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/28 14:34:04 by ahmansou          #+#    #+#             */
-/*   Updated: 2019/07/28 14:34:05 by ahmansou         ###   ########.fr       */
+/*   Created: 2019/08/09 15:08:50 by ahmansou          #+#    #+#             */
+/*   Updated: 2019/08/09 15:08:54 by ahmansou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static	void	no_m_x(char *x, t_flags *flgs, int *sz)
 	*sz += (!flgs->zero || flgs->dot) ? put_space(flgs->wd) : 0;
 	if (flgs->oc && x[0] != '0')
 	{
-		*sz += write(1, "0x", 2);
+		*sz += write(1, "0X", 2);
 	}
 	*sz += (flgs->zero && !flgs->dot) ? put_zero(flgs->wd) : 0;
 	*sz += (flgs->pr > (int)ft_strlen(x)) ?
@@ -47,7 +47,7 @@ static	void	m_x(char *x, t_flags *flgs, int *sz)
 {
 	if (flgs->oc && x[0] != '0')
 	{
-		*sz += write(1, "0x", 2);
+		*sz += write(1, "0X", 2);
 		flgs->wd -= 2;
 	}
 	if (flgs->pr > (int)ft_strlen(x))
@@ -64,15 +64,15 @@ static	void	m_x(char *x, t_flags *flgs, int *sz)
 	*sz += put_space(flgs->wd);
 }
 
-void			x_proc(const char *frm, va_list ap, int *i, int *sz)
+void			xcap_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	unsigned long long	x;
 	char				*s;
 	t_flags				flgs;
 
-	get_flgs(frm, &flgs, i, 'x');
+	get_flgs(frm, &flgs, i, 'X');
 	x = get_va_arg_o(ap, flgs);
-	s = itoa_base(x, 16);
+	s = itoa_basecap(x, 16);
 	if (flgs.mi)
 		m_x(s, &flgs, sz);
 	else

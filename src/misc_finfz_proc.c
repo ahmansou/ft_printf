@@ -22,7 +22,7 @@ void	z_proc(t_flags *flgs, int *sz)
 		z = ft_strdup("0.");
 	flgs->pr = (!flgs->pr && !flgs->dot) ? 6 : flgs->pr;
 	flgs->wd -= (flgs->plus || flgs->space) ? 1 : 0;
-	*sz += (flgs->wd && !flgs->zero && !flgs->mi) ? 
+	*sz += (flgs->wd && !flgs->zero && !flgs->mi) ?
 		put_space(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
 	if (flgs->plus)
 		*sz += write(1, &flgs->plus, 1);
@@ -31,7 +31,7 @@ void	z_proc(t_flags *flgs, int *sz)
 	*sz += (flgs->zero && !flgs->mi) ?
 		put_zero(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
 	ft_putstr(z);
-	*sz +=  ft_strlen(z);
+	*sz += ft_strlen(z);
 	*sz += put_zero(flgs->pr);
 	*sz += (flgs->mi) ? put_space(flgs->wd - flgs->pr - ft_strlen(z)) : 0;
 	free(z);
@@ -47,14 +47,14 @@ void	infnan_proc(t_flags *f, int *sz, char *mant)
 		inf = ft_strdup("inf");
 	else
 		inf = ft_strdup("nan");
-	f->wd -= (isinf && (f->plus || f->space)) ? 1 : 0; 
-	*sz += (!f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0 ;
+	f->wd -= (isinf && (f->plus || f->space)) ? 1 : 0;
+	*sz += (!f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0;
 	if (f->plus && isinf)
 		*sz += write(1, &f->plus, 1);
 	else if (f->space && isinf)
 		*sz += write(1, " ", 1);
 	ft_putstr(inf);
 	*sz += ft_strlen(inf);
-	*sz += (f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0 ;
+	*sz += (f->mi && f->wd) ? put_space(f->wd - ft_strlen(inf)) : 0;
 	free(inf);
 }

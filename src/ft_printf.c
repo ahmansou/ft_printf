@@ -23,7 +23,7 @@ void	get_params(const char *frm, va_list ap, int *i, int *sz)
 	while (frm[*i])
 	{
 		tt = 0;
-		while (tt < 9)
+		while (tt < 11)
 		{
 			if (frm[*i] == v_tps.types[tt])
 			{

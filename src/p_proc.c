@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-void			p_proc(const char *frm, va_list ap, int *i, int *sz)
+void	p_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	unsigned long	p;
 	char			*s;
-	t_flags	flgs;
+	t_flags			flgs;
 
 	p = (unsigned long)va_arg(ap, void*);
 	get_flgs(frm, &flgs, i, 'p');

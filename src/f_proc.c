@@ -11,24 +11,16 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-// #include "float.h"
 
-union	u_ld
+static long double	get_va_arg_f(va_list ap, t_flags flgs)
 {
-	long double	ld;
-	t_ld		uld;
-};
-
-
-static	long double get_va_arg_f(va_list ap, t_flags flgs)
-{
-	if (flgs.L == 1)
+	if (flgs.lcap == 1)
 		return (va_arg(ap, long double));
 	else
 		return ((long double)va_arg(ap, double));
 }
 
-static char *conv_mant(char *mant, int exp)
+static char			*conv_mant(char *mant, int exp)
 {
 	int		i;
 	char	*a;
@@ -40,12 +32,12 @@ static char *conv_mant(char *mant, int exp)
 	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[i])
 	{
-		a = ft_mult_str(a, "10", 1);
+		a = str_mul(a, "10", 1);
 		if (mant[i] == '1')
 		{
 			pw = str_pow("5", i + 1);
 			tmpa = a;
-			a = ft_add_str(a, pw);
+			a = str_add(a, pw);
 			free(tmpa);
 			free(pw);
 		}
@@ -54,7 +46,7 @@ static char *conv_mant(char *mant, int exp)
 	return (a);
 }
 
-static	void	rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
+static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 {
 	int			lp[2];
 	char		*pow;
@@ -67,7 +59,7 @@ static	void	rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 		pow = str_pow("2", ld.uld.exp - 16383);
 		lp[0] = 63;
 	}
-	pow = ft_mult_str(pow, mant, 0);
+	pow = str_mul(pow, mant, 0);
 	if (!(ld.ld > 0 && ld.ld < 1))
 		pow = str_delzero(pow);
 	lp[1] = (int)ft_strlen(pow);
@@ -77,7 +69,7 @@ static	void	rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 		rrf_proc(f, sz, pow, lp);
 }
 
-void			f_proc(const char *frm, va_list ap, int *i, int *sz)
+void				f_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long double	ld;
 	char		*mant;

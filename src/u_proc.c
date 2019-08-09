@@ -12,18 +12,18 @@
 
 #include "ft_printf.h"
 
-static	int		sub_w_u(t_flags flgs, char *u)
+static int	sub_w_u(t_flags flgs, char *u)
 {
 	int c;
-	
+
 	c = 0;
 	c += (flgs.space) ? 1 : 0;
-	c += (flgs.pr >  (int)ft_strlen(u)) ? flgs.pr : (int)ft_strlen(u);
+	c += (flgs.pr > (int)ft_strlen(u)) ? flgs.pr : (int)ft_strlen(u);
 	c -= (!flgs.pr && flgs.dot && u[0] == '0') ? 1 : 0;
 	return (c);
 }
 
-static	void	no_m_u(char *u, t_flags *flgs, int *sz)
+static void	no_m_u(char *u, t_flags *flgs, int *sz)
 {
 	flgs->wd -= sub_w_u(*flgs, u);
 	*sz += (!flgs->zero || flgs->dot) ?
@@ -32,16 +32,17 @@ static	void	no_m_u(char *u, t_flags *flgs, int *sz)
 		*sz += write(1, " ", 1);
 	*sz += (flgs->zero && !flgs->dot) ?
 		put_zero(flgs->wd) : 0;
-	*sz += (flgs->pr >  (int)ft_strlen(u)) ? put_zero(flgs->pr - ft_strlen(u)) : 0;
+	*sz += (flgs->pr > (int)ft_strlen(u)) ?
+		put_zero(flgs->pr - ft_strlen(u)) : 0;
 	*sz += (!flgs->pr && flgs->dot && u[0] == '0') ? 0 : ft_strlen(u);
 	(!flgs->pr && flgs->dot && u[0] == '0') ? 0 : ft_putstr(u);
 }
 
-static	void	m_u(char *u, t_flags *flgs, int *sz)
+static void	m_u(char *u, t_flags *flgs, int *sz)
 {
 	if (flgs->space)
 		*sz += write(1, " ", 1) + 0 * flgs->wd--;
-	if (flgs->pr >  (int)ft_strlen(u))
+	if (flgs->pr > (int)ft_strlen(u))
 	{
 		*sz += put_zero(flgs->pr - ft_strlen(u));
 		flgs->wd -= flgs->pr - ft_strlen(u);
@@ -52,7 +53,7 @@ static	void	m_u(char *u, t_flags *flgs, int *sz)
 	*sz += put_space(flgs->wd);
 }
 
-void	u_proc(const char *frm, va_list ap, int *i, int *sz)
+void		u_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	unsigned long long	o;
 	char				*s;

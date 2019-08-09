@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-long long get_va_arg(va_list ap, t_flags flgs)
+long long	get_va_arg(va_list ap, t_flags flgs)
 {
 	if (flgs.h == 1)
 		return (va_arg(ap, int));
@@ -25,14 +25,11 @@ long long get_va_arg(va_list ap, t_flags flgs)
 	else
 		return (va_arg(ap, int));
 }
-/**
-***no mi
-**/
 
-static	int		sub_w(t_flags flgs, long long d)
+static int	sub_w(t_flags flgs, long long d)
 {
 	int c;
-	
+
 	c = 0;
 	c += (flgs.plus || flgs.space) ? 1 : 0;
 	c += (flgs.pr > n_len(d)) ? flgs.pr : n_len(d);
@@ -40,7 +37,7 @@ static	int		sub_w(t_flags flgs, long long d)
 	return (c);
 }
 
-static	void	no_m_d(long long d, t_flags *flgs, int *sz)
+static void	no_m_d(long long d, t_flags *flgs, int *sz)
 {
 	flgs->wd -= sub_w(*flgs, d);
 	*sz += (!flgs->zero || flgs->dot) ? put_space(flgs->wd) : 0;
@@ -54,10 +51,8 @@ static	void	no_m_d(long long d, t_flags *flgs, int *sz)
 	*sz += (!flgs->pr && flgs->dot && !d) ? 0 : n_len(d);
 	(!flgs->pr && flgs->dot && !d) ? 0 : ft_putnbr(d);
 }
-/**
-***yes mi
-**/
-static	void	m_d(long long d, t_flags *flgs, int *sz)
+
+static void	m_d(long long d, t_flags *flgs, int *sz)
 {
 	if (flgs->plus)
 		*sz += write(1, &flgs->plus, 1) + 0 * flgs->wd--;
@@ -74,14 +69,10 @@ static	void	m_d(long long d, t_flags *flgs, int *sz)
 	*sz += put_space(flgs->wd);
 }
 
-
-/**
-*** flags : 0 = '-', 1 = '+', 2 = ' ', 3 = '0', 4 = wd, 5 = pr
-**/
-void			d_proc(const char *frm, va_list ap, int *i, int *sz)
+void		d_proc(const char *frm, va_list ap, int *i, int *sz)
 {
 	long long	d;
-	t_flags 	flgs;
+	t_flags		flgs;
 	int			indx;
 
 	indx = *i;
@@ -91,8 +82,6 @@ void			d_proc(const char *frm, va_list ap, int *i, int *sz)
 		get_flgs(frm, &flgs, i, 'd');
 	if (frm[indx] == 'i')
 		get_flgs(frm, &flgs, i, 'i');
-	// printf("\nmi : %d, plus : %d, space : %d, zero : %d, wd : %d, pr : %d, dot : %d, h : %d, l : %d\n",
-	// flgs.mi, flgs.plus, flgs.space, flgs.zero, flgs.wd, flgs.pr, flgs.dot, flgs.h, flgs.l);
 	d = get_va_arg(ap, flgs);
 	if (d < 0)
 	{
