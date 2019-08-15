@@ -19,7 +19,7 @@ char	*ft_round(char *pow, int pnt, int pr)
 	char	*temp;
 	char	*tmp;
 
-	temp = pow;
+	// temp = pow;
 	i = (int)ft_strlen(pow) - pnt + pr;
 	if (pow[i] >= '5')
 	{
@@ -34,6 +34,8 @@ char	*ft_round(char *pow, int pnt, int pr)
 			temp = str_add(tmp, "1");
 			free(tmp);
 		}
+		else
+			temp = ft_strsub(pow, 0, i);
 	}
 	else
 		temp = ft_strsub(pow, 0, i);

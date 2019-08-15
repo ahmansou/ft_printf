@@ -35,4 +35,5 @@ void	p_proc(const char *frm, va_list ap, int *i, int *sz)
 		ft_putstr(s);
 		*sz += ft_strlen(s);
 	}
+	free(s);
 }
