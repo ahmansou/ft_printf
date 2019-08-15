@@ -72,7 +72,7 @@ static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 		pow = str_delzero(pow);
 	lp[1] = (int)ft_strlen(pow);
 	if (ld.ld > 0 && ld.ld < 1)
-		sub_proc(f, sz, pow, lp);
+		sub_proc(f, sz, &pow, lp);
 	else
 		rrf_proc(f, sz, pow, lp);
 }
