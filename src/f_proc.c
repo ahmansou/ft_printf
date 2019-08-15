@@ -24,7 +24,7 @@ static char			*conv_mant(char *mant, int exp)
 {
 	int		i;
 	char	*a;
-	char	*tmpa;
+	char	*tmp;
 	char	*pw;
 
 	i = 0;
@@ -32,15 +32,17 @@ static char			*conv_mant(char *mant, int exp)
 	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[i])
 	{
-		tmpa = a;
+		tmp = a;
 		a = str_mul(a, "10", 1);
-		free(tmpa);
+		free(tmp);
 		if (mant[i] == '1')
 		{
-			pw = str_pow(ft_strdup("5"), i + 1);
-			tmpa = a;
+			tmp = ft_strdup("5");
+			pw = str_pow(tmp, i + 1);
+			free(tmp);
+			tmp = a;
 			a = str_add(a, pw);
-			free(tmpa);
+			free(tmp);
 			free(pw);
 		}
 		i++;
