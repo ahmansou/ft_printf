@@ -42,9 +42,8 @@ static	void	get_hl(const char *frm, t_flags *flgs, int *i, char c)
 void			get_flgs(const char *frm, t_flags *flgs, int *i, char c)
 {
 	set_flgs(flgs);
-	while (!(frm[*i] >= '0' && frm[*i] <= '9') &&
-			frm[*i] != '.' && frm[*i] != c &&
-			frm[*i] != 'h' && frm[*i] != 'l')
+	while (!(frm[*i] >= '1' && frm[*i] <= '9') &&
+		frm[*i] != '.' && frm[*i] != c && frm[*i] != 'h' && frm[*i] != 'l')
 	{
 		if (frm[*i] == '-')
 			flgs->mi = 1;
@@ -54,9 +53,10 @@ void			get_flgs(const char *frm, t_flags *flgs, int *i, char c)
 			flgs->space = 1;
 		else if (frm[*i] == '#')
 			flgs->oc = 1;
+		else if (frm[*i] == '0')
+			flgs->zero = 1;
 		(*i)++;
 	}
-	flgs->zero = (frm[*i] == '0') ? 1 : 0;
 	while (frm[*i] == '0')
 		(*i)++;
 	flgs->wd = (frm[*i] >= '1' && frm[*i] <= '9' && frm[*i] != c) ?
