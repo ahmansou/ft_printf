@@ -55,8 +55,6 @@ void		rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 	*sz += (f->mi && f->wd) ?
 		put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
 	free(pow);
-	// if (pow = )
-	// ft_printf("\n%p, %p\n", &tmp, &pow);
 	free(tmp);
 }
 

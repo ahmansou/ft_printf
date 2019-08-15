@@ -55,7 +55,7 @@ static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 	char		*pow;
 	char		*tmp;
 	char		*tmpm;
-	
+
 	tmpm = conv_mant(mant, ld.uld.exp);
 	if (ld.uld.exp - 16383 < 0 && (lp[0] = ((ld.uld.exp - 16383) * -1) + 63))
 		pow = str_pow("5", (ld.uld.exp - 16383) * -1);
@@ -70,7 +70,10 @@ static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 	free(tmpm);
 	pow = (!(ld.ld > 0 && ld.ld < 1)) ? str_delzero(pow) : pow;
 	lp[1] = (int)ft_strlen(pow);
-	(ld.ld > 0 && ld.ld < 1) ? sub_proc(f, sz, pow, lp) : rrf_proc(f, sz, pow, lp);
+	if (ld.ld > 0 && ld.ld < 1)
+		sub_proc(f, sz, pow, lp);
+	else
+		rrf_proc(f, sz, pow, lp);
 }
 
 void				f_proc(const char *frm, va_list ap, int *i, int *sz)
