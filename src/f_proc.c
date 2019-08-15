@@ -29,7 +29,7 @@ static char			*conv_mant(char *mant, int exp)
 
 	i = -1;
 	a = ft_strnew(1);
-	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
+	(exp == 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
 	while (mant[++i])
 	{
 		tmp = a;
@@ -68,13 +68,10 @@ static void			rf_proc(t_flags *f, int *sz, char *mant, union u_ld ld)
 	pow = str_mul(pow, tmpm, 0);
 	free(tmp);
 	free(tmpm);
-	if (!(ld.ld > 0 && ld.ld < 1))
-		pow = str_delzero(pow);
+	pow = (!(ld.ld > 0 && ld.ld < 1)) ? str_delzero(pow) : pow;
 	lp[1] = (int)ft_strlen(pow);
-	if (ld.ld > 0 && ld.ld < 1)
-		sub_proc(f, sz, &pow, lp);
-	else
-		rrf_proc(f, sz, pow, lp);
+	tmp = pow;
+	(ld.ld > 0 && ld.ld < 1) ? sub_proc(f, sz, tmp, lp) : rrf_proc(f, sz, tmp, lp);
 }
 
 void				f_proc(const char *frm, va_list ap, int *i, int *sz)

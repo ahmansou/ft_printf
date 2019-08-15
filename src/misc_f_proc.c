@@ -59,28 +59,32 @@ static char	*init_sub(int len, int *p, char *pow, int pr)
 	char *s;
 	char *add;
 
+	tmp = pow;
 	if (pr < *p)
 	{
-		tmp = pow;
-		pow = ft_round(pow, *p, pr);
-		s = ft_strsub(tmp + (len - *p), 0, pr);
-		t = ft_strsub(pow + (len - *p) + 1, 0, pr);
+		tmp = ft_round(pow, *p, pr);
+		s = ft_strsub(pow + (len - *p), 0, pr);
+		t = ft_strsub(tmp + (len - *p) + 1, 0, pr);
 		t = str_delzero(t);
 		add = str_delzero(str_add(s, "1"));
 		if (!ft_strcmp(add, t))
 			*p -= 1;
-		free(tmp);
 		free(s);
 		free(t);
 		free(add);
 	}
-	return (pow);
+	else
+		tmp = ft_strdup(pow);
+	return (tmp);
 }
 
-void		sub_proc(t_flags *f, int *sz, char **pow, int lp[])
+void		sub_proc(t_flags *f, int *sz, char *pow, int lp[])
 {
+	char	*tmp;
+
 	f->pr = (!f->pr && !f->dot) ? 6 : f->pr;
-	*pow = init_sub(lp[1], &lp[0], *pow, f->pr);
+	tmp = pow;
+	tmp = init_sub(lp[1], &lp[0], pow, f->pr);
 	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
 	f->wd -= (f->plus || f->space) ? 1 : 0;
 	*sz += (f->wd && !f->zero && !f->mi) ?
@@ -90,7 +94,8 @@ void		sub_proc(t_flags *f, int *sz, char **pow, int lp[])
 	*sz += (f->wd && f->zero && !f->mi) ?
 		put_zero(f->wd - (f->pr + 2)) : 0;
 	*sz += ((!(f->dot && !f->pr) || f->oc)) ?
-		p_fsubd(*pow, lp[1], lp[0], f->pr) : p_fsub(*pow, lp[1], lp[0]);
+		p_fsubd(tmp, lp[1], lp[0], f->pr) : p_fsub(tmp, lp[1], lp[0]);
 	*sz += (f->mi && f->wd) ? put_space(f->wd - (f->pr + 2)) : 0;
-	free(*pow);
+	free(pow);
+	free(tmp);
 }

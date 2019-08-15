@@ -90,6 +90,6 @@ int					p_fsub(char *s, int len, int pnt);
 void				infnan_proc(t_flags *f, int *sz, char *mant);
 void				z_proc(t_flags *flgs, int *sz);
 void				rrf_proc(t_flags *f, int *sz, char *pow, int lp[]);
-void				sub_proc(t_flags *f, int *sz, char **pow, int lp[]);
+void				sub_proc(t_flags *f, int *sz, char *pow, int lp[]);
 
 #endif
