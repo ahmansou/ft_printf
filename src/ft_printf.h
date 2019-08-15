@@ -74,7 +74,6 @@ long long			get_va_arg(va_list ap, t_flags flgs);
 unsigned long long	get_va_arg_o(va_list ap, t_flags flgs);
 char				*itoa_base(unsigned long long nbr, int base);
 char				*itoa_basecap(unsigned long long nbr, int base);
-char				*str_addzero(char *s1, char *s2);
 char				*str_delzero(char *s);
 char				*str_pow(char *a, int pow);
 char				*mant_addzero(char *mant, int sz);

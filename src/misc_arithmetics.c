@@ -12,17 +12,6 @@
 
 #include "ft_printf.h"
 
-char	*str_addzero(char *s1, char *s2)
-{
-	char	*s;
-
-	s = ft_strnew(ft_strlen(s1));
-	s = ft_memset(s, 48, ft_strlen(s1) - ft_strlen(s2));
-	s = ft_strcat(s, s2);
-	free(s2);
-	return (s);
-}
-
 char	*str_delzero(char *s)
 {
 	char	*r;
@@ -51,4 +40,19 @@ char	*str_pow(char *a, int pow)
 		pow--;
 	}
 	return (prd);
+}
+
+char	*mant_addzero(char *mant, int sz)
+{
+	char	*a;
+	int		i;
+	int		j;
+
+	a = ft_strnew(sz);
+	ft_memset(a, '0', sz);
+	i = ft_strlen(a) - 1;
+	j = ft_strlen(mant) - 1;
+	while (j >= 0)
+		a[i--] = mant[j--];
+	return (a);
 }
