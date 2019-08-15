@@ -27,10 +27,10 @@ static char			*conv_mant(char *mant, int exp)
 	char	*tmp;
 	char	*pw;
 
-	i = 0;
+	i = -1;
 	a = ft_strnew(1);
 	(exp = 0) ? ft_memset(a, '0', 1) : ft_memset(a, '1', 1);
-	while (mant[i])
+	while (mant[++i])
 	{
 		tmp = a;
 		a = str_mul(a, "10", 1);
@@ -45,7 +45,6 @@ static char			*conv_mant(char *mant, int exp)
 			free(tmp);
 			free(pw);
 		}
-		i++;
 	}
 	return (a);
 }

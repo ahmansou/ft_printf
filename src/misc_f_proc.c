@@ -35,8 +35,10 @@ static char	*init_rf(int len, int *p, char *pow, t_flags *f)
 
 void		rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 {
+	char	*t;
+
 	f->pr = (!f->pr && !f->dot) ? 6 : f->pr;
-	pow = init_rf(lp[1], &lp[0], pow, f);
+	t = init_rf(lp[1], &lp[0], pow, f);
 	f->wd -= (f->dot && f->dot && !f->oc && !f->pr) ? 1 : 0;
 	f->wd -= (f->plus || f->space) ? 1 : 0;
 	*sz += (f->wd && !f->zero && !f->mi) ?
@@ -46,10 +48,13 @@ void		rrf_proc(t_flags *f, int *sz, char *pow, int lp[])
 	*sz += (f->wd && f->zero && !f->mi) ?
 		put_zero(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
 	*sz += ((!(f->dot && !f->pr) || f->oc)) ?
-		print_fd(pow, lp[1], lp[0], f->pr) : print_f(pow, lp[1], lp[0], f->pr);
+		print_fd(t, lp[1], lp[0], f->pr) : print_f(t, lp[1], lp[0], f->pr);
 	*sz += (f->mi && f->wd) ?
 		put_space(f->wd - f->pr - (lp[1] - lp[0]) - 1) : 0;
-	free(pow);
+	if (&t != &pow)
+		free(t);
+	else
+		free(pow);
 }
 
 static char	*init_sub(int len, int *p, char *pow, int pr)
